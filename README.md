@@ -1,5 +1,4 @@
-# Problem with the latest version, it will be quickly fixed
-# Please don't download for now
+# Problem with the latest version, it will be quickly fixed, please don't download for now
 
 
 
