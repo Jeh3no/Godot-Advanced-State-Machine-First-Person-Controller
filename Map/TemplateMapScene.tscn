@@ -1,0 +1,155 @@
+[gd_scene load_steps=6 format=3 uid="uid://oj3blpxqf1bl"]
+
+[ext_resource type="PackedScene" uid="uid://bwggrf7sbmkcv" path="res://Godot-Simple-State-Machine-First-Person-Controller/addons/PlayerCharacter/PlayerCharacterScene.tscn" id="1_oh4cu"]
+[ext_resource type="Material" uid="uid://cmlreoo2qwhp4" path="res://Godot-Simple-State-Machine-First-Person-Controller/addons/Arts/StructureMaterial.tres" id="2_etmyc"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fjbi6"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_43bpn"]
+sky_material = SubResource("ProceduralSkyMaterial_fjbi6")
+
+[sub_resource type="Environment" id="Environment_pyxgo"]
+background_mode = 2
+sky = SubResource("Sky_43bpn")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="TemplateMap" type="Node3D"]
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_pyxgo")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, -22, 101, 4)
+shadow_enabled = true
+
+[node name="PlayerCharacter" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.7646, 1.50542, -19.959)
+
+[node name="PlayerCharacter" parent="PlayerCharacter" instance=ExtResource("1_oh4cu")]
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, -10)
+use_collision = true
+collision_mask = 2
+size = Vector3(90, 1, 86)
+material = ExtResource("2_etmyc")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25171, 2.15168, -42.5)
+use_collision = true
+collision_mask = 2
+size = Vector3(7.497, 0.5, 7)
+material = ExtResource("2_etmyc")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.99679, 1.15147, -39.5)
+use_collision = true
+collision_mask = 2
+size = Vector3(1, 1.49957, 1)
+material = ExtResource("2_etmyc")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.99679, 1.15147, -45.5)
+use_collision = true
+collision_mask = 2
+size = Vector3(1, 1.49957, 1)
+material = ExtResource("2_etmyc")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.48455, 1.15147, -45.5)
+use_collision = true
+collision_mask = 2
+size = Vector3(1, 1.49957, 1)
+material = ExtResource("2_etmyc")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.48455, 1.15147, -39.5)
+use_collision = true
+collision_mask = 2
+size = Vector3(1, 1.49957, 1)
+material = ExtResource("2_etmyc")
+
+[node name="CSGPolygon1" type="CSGPolygon3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 3, 3.5, 1.5, 2.5)
+use_collision = true
+collision_mask = 2
+polygon = PackedVector2Array(-6, -1, 1, 7, 1, -1)
+material = ExtResource("2_etmyc")
+
+[node name="CSGPolygon5" type="CSGPolygon3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 3.5, 1.5, -5.5)
+use_collision = true
+collision_mask = 2
+polygon = PackedVector2Array(-6, -1, -1, 2, 5, -1)
+material = ExtResource("2_etmyc")
+
+[node name="CSGPolygon6" type="CSGPolygon3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 3.5, 1.5, -29.5)
+use_collision = true
+collision_mask = 2
+polygon = PackedVector2Array(-6, -2, -6, 1, 4, 1)
+material = ExtResource("2_etmyc")
+
+[node name="CSGPolygon2" type="CSGPolygon3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 3.5, 1.5, 11.5)
+use_collision = true
+collision_mask = 2
+polygon = PackedVector2Array(-6, -1, 4, 5, 4, -1)
+material = ExtResource("2_etmyc")
+
+[node name="CSGPolygon3" type="CSGPolygon3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 6, 3.5, 1.5, 22.5)
+use_collision = true
+collision_mask = 2
+polygon = PackedVector2Array(-6, -1, 11, 5, 11, -1)
+material = ExtResource("2_etmyc")
+
+[node name="CSGPolygon4" type="CSGPolygon3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 7.5, 0.5, 11.5)
+use_collision = true
+collision_mask = 2
+polygon = PackedVector2Array(0, 0, 0, 6, 8, 6, 1, 5)
+material = ExtResource("2_etmyc")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.1189, -1.3117, 7.2949)
+use_collision = true
+collision_mask = 2
+radius = 4.0
+radial_segments = 64
+rings = 12
+material = ExtResource("2_etmyc")
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.7101, 1.33529, 26.4086)
+use_collision = true
+collision_mask = 2
+radius = 4.0
+sides = 16
+cone = true
+material = ExtResource("2_etmyc")
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.6611, -1.3117, 14.2638)
+use_collision = true
+collision_mask = 2
+radius = 4.6
+radial_segments = 6
+rings = 12
+material = ExtResource("2_etmyc")
+
+[node name="CSGSphere3D4" type="CSGSphere3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.817, 0.174119, 20.8931)
+use_collision = true
+collision_mask = 2
+radius = 4.4
+radial_segments = 32
+rings = 12
+material = ExtResource("2_etmyc")

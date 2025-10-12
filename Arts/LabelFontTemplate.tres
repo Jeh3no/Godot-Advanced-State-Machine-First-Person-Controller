@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://d1rg1oruwidf"]
+
+[ext_resource type="FontFile" uid="uid://bwr73i28ligrq" path="res://Arts/Ticketing.ttf" id="1_mhoau"]
+
+[resource]
+line_spacing = 5.0
+font = ExtResource("1_mhoau")
+font_size = 60
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
