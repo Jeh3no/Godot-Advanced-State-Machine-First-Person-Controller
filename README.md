@@ -1,3 +1,8 @@
+# Problem with the latest version, it will be quickly fixed
+# Please don't download for now
+
+
+
 
 An advanced FPS Controller Template made in Godot 4
 
