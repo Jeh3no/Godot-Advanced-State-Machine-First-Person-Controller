@@ -1,0 +1,542 @@
+[gd_scene load_steps=25 format=3 uid="uid://bwggrf7sbmkcv"]
+
+[ext_resource type="Script" uid="uid://d3s8yxuvpmekm" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/player_character_script.gd" id="1_h128t"]
+[ext_resource type="Script" uid="uid://b0fbr48rbvn27" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/Camera/camera_script.gd" id="2_x12n0"]
+[ext_resource type="Script" uid="uid://8g033x6qm1rx" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/fly_state_script.gd" id="9_ph066"]
+[ext_resource type="Script" uid="uid://hc1xroood24q" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/slide_state_script.gd" id="10_poibi"]
+[ext_resource type="Script" uid="uid://c4skioddhqatw" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/dash_state_script.gd" id="11_khex2"]
+[ext_resource type="LabelSettings" uid="uid://bs0stms0b56kp" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/label_settings.tres" id="14_gfbru"]
+[ext_resource type="Shader" uid="uid://b34228uop3gdf" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/Shaders/speed_lines_shader.gdshader" id="14_jv0i6"]
+[ext_resource type="Script" uid="uid://dx02l6p6behb8" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/UI/hud_script.gd" id="16_5jm78"]
+[ext_resource type="Texture2D" uid="uid://dv747ov6fcrsg" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/crosshair.png" id="16_gfbru"]
+[ext_resource type="Script" uid="uid://sca7ypsol83f" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/state_machine_script.gd" id="54_e0r17"]
+[ext_resource type="Script" uid="uid://stil4xkf3tk0" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/idle_state_script.gd" id="55_dayh2"]
+[ext_resource type="Script" uid="uid://blt7dest23fk0" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/walk_state_script.gd" id="56_w3td4"]
+[ext_resource type="Script" uid="uid://5gk47o641xgt" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/run_state_script.gd" id="57_gwv0a"]
+[ext_resource type="Script" uid="uid://dvu58wf01wils" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/jump_state_script.gd" id="58_gwv0a"]
+[ext_resource type="Script" uid="uid://bh3rdvokmrar1" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/inair_state_script.gd" id="59_bqtt6"]
+[ext_resource type="Script" uid="uid://bhoqhv7escpyx" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/crouch_state_script.gd" id="60_tu3bf"]
+
+[sub_resource type="Curve" id="Curve_s7fsc"]
+_limits = [10.0, 30.0, 0.0, 60.0]
+_data = [Vector2(0, 10), 0.0, 0.0, 0, 0, Vector2(60, 30), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_gfbru"]
+_limits = [3.0, 30.0, 0.0, 30.0]
+_data = [Vector2(0, 3), 0.0, 0.0, 0, 0, Vector2(30, 30), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5yjma"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6bkys"]
+albedo_color = Color(0.196078, 0.223529, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_p2iaj"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jv0i6"]
+frequency = 0.15
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_khex2"]
+noise = SubResource("FastNoiseLite_jv0i6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_khex2"]
+shader = ExtResource("14_jv0i6")
+shader_parameter/noise = SubResource("NoiseTexture2D_khex2")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_count = 2.0
+shader_parameter/line_density = 0.800000038
+shader_parameter/line_faloff = 1.0
+shader_parameter/mask_size = 0.1
+shader_parameter/mask_edge = 0.800000038
+shader_parameter/animation_speed = 20.0
+
+[node name="PlayerCharacter" type="CharacterBody3D" groups=["PlayerCharacter"]]
+collision_layer = 2
+floor_block_on_wall = false
+floor_max_angle = 1.13446
+floor_snap_length = 0.0
+platform_floor_layers = 4278190081
+script = ExtResource("1_h128t")
+desired_move_speed_curve = SubResource("Curve_s7fsc")
+in_air_move_speed_curve = SubResource("Curve_gfbru")
+continious_run = true
+jump_height = 2.1
+jump_time_to_peak = 0.34
+jump_time_to_fall = 0.28
+max_slope_angle = 15.0
+dash_speed = 90.0
+dash_time = 0.09
+time_bef_can_dash_again = 0.5
+time_bef_reload_dash = 1.0
+move_forward_action = "move_forward"
+move_backward_action = "move_backward"
+move_left_action = "move_left"
+move_right_action = "move_right"
+run_action = "run"
+crouch_action = "crouch"
+jump_action = "jump"
+slide_action = "slide"
+dash_action = "dash"
+fly_action = "fly"
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("54_e0r17")
+initial_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("55_dayh2")
+metadata/_custom_type_script = "uid://stil4xkf3tk0"
+
+[node name="CrouchState" type="Node" parent="StateMachine"]
+script = ExtResource("60_tu3bf")
+metadata/_custom_type_script = "uid://bhoqhv7escpyx"
+
+[node name="WalkState" type="Node" parent="StateMachine"]
+script = ExtResource("56_w3td4")
+metadata/_custom_type_script = "uid://blt7dest23fk0"
+
+[node name="RunState" type="Node" parent="StateMachine"]
+script = ExtResource("57_gwv0a")
+metadata/_custom_type_script = "uid://5gk47o641xgt"
+
+[node name="JumpState" type="Node" parent="StateMachine"]
+script = ExtResource("58_gwv0a")
+metadata/_custom_type_script = "uid://dvu58wf01wils"
+
+[node name="InairState" type="Node" parent="StateMachine"]
+script = ExtResource("59_bqtt6")
+metadata/_custom_type_script = "uid://bh3rdvokmrar1"
+
+[node name="SlideState" type="Node" parent="StateMachine"]
+script = ExtResource("10_poibi")
+metadata/_custom_type_script = "uid://hc1xroood24q"
+
+[node name="DashState" type="Node" parent="StateMachine"]
+script = ExtResource("11_khex2")
+metadata/_custom_type_script = "uid://c4skioddhqatw"
+
+[node name="FlyState" type="Node" parent="StateMachine"]
+script = ExtResource("9_ph066")
+metadata/_custom_type_script = "uid://8g033x6qm1rx"
+
+[node name="CameraHolder" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.715, 0)
+script = ExtResource("2_x12n0")
+enable_lean = true
+forward_move_max_tilt_val = 100.0
+zoom_action = "zoom"
+mouse_mode_action = "mouse_mode"
+
+[node name="Camera" type="Camera3D" parent="CameraHolder"]
+unique_name_in_owner = true
+cull_mask = 1
+current = true
+fov = 90.0
+near = 0.01
+far = 1000.0
+
+[node name="Hitbox" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_5yjma")
+
+[node name="Model" type="MeshInstance3D" parent="."]
+layers = 2
+material_override = SubResource("StandardMaterial3D_6bkys")
+mesh = SubResource("CapsuleMesh_p2iaj")
+
+[node name="Raycasts" type="Node3D" parent="."]
+
+[node name="CeilingCheck" type="RayCast3D" parent="Raycasts"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.758088, 0)
+exclude_parent = false
+target_position = Vector3(0, 3, 0)
+debug_shape_custom_color = Color(1, 0, 0, 1)
+
+[node name="FloorCheck" type="RayCast3D" parent="Raycasts"]
+unique_name_in_owner = true
+exclude_parent = false
+target_position = Vector3(0, -3, 0)
+debug_shape_custom_color = Color(0, 0.823529, 0.956863, 1)
+
+[node name="SlideFloorCheck" type="RayCast3D" parent="Raycasts"]
+unique_name_in_owner = true
+exclude_parent = false
+target_position = Vector3(0, -3, 0)
+debug_shape_custom_color = Color(0, 0.823529, 0.956863, 1)
+
+[node name="HUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("play_char")]
+script = ExtResource("16_5jm78")
+play_char = NodePath("..")
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayCharInfos" type="HBoxContainer" parent="HUD"]
+offset_left = 9.0
+offset_top = 7.0
+offset_right = 511.0
+offset_bottom = 119.0
+scale = Vector2(0.7, 0.7)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayCharInfos"]
+layout_mode = 2
+
+[node name="CurrentStateLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Current state : "
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="DesiredMoveSpeedLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Desired move speed : "
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="VelocityLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Velocity : "
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="VelocityVectorLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Velocity vector : "
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="IsOnFloorLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Is on floor :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="CeilingCheckLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Ceiling raycast colliding :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="JumpBufferLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Jump buffering  on :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="CoyoteTimeLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Coyote time :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="NbJumpsInAirAllowedLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Nb jumps in air allowed :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="JumpCooldownLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Time before can jump again :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="SlideTimeLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Slide time :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="SlideCooldownLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Time before can slide again :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="NbDashsAllowedLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Nb dashs allowed :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="DashCooldownLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Time before can dash again :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="HUD/PlayCharInfos/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="CameraRotationLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Camera rotation :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="CurrentFOVLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Current FOV :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="CameraBobVerticalOffsetLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Camera bob vertical offset :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/PlayCharInfos"]
+layout_mode = 2
+
+[node name="CurrentStateLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="DesiredMoveSpeedLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="VelocityLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="VelocityVectorLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="IsOnFloorLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="CeilingCheckLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="JumpBufferLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="CoyoteTimeLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="NbJumpsInAirAllowedLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="JumpCooldownLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="SlideTimeLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="SlideCooldownLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="NbDashsAllowedLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="DashCooldownLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="HUD/PlayCharInfos/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="CameraRotationLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="CurrentFOVLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="CameraBobVerticalOffsetLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="PlayCharInfos2" type="HBoxContainer" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -233.0
+offset_top = 13.0
+offset_right = 65.0
+offset_bottom = 43.0
+grow_horizontal = 0
+scale = Vector2(0.7, 0.7)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayCharInfos2"]
+layout_mode = 2
+
+[node name="FramesPerSecondLabel" type="Label" parent="HUD/PlayCharInfos2/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Frames per seconds : "
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/PlayCharInfos2"]
+layout_mode = 2
+
+[node name="FramesPerSecondLabelText" type="Label" parent="HUD/PlayCharInfos2/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "....."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="SpeedLinesContainer" type="ColorRect" parent="HUD"]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_khex2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Crosshair" type="TextureRect" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("16_gfbru")
+
+[connection signal="change_fov" from="StateMachine" to="CameraHolder" method="change_fov"]
