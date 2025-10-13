@@ -1,4 +1,3 @@
-
 An advanced and complete state machine first person controller asset, made in Godot 4.
 
 
