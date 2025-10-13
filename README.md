@@ -1,5 +1,5 @@
 
-An advanced state machine based first person controller asset, made in Godot 4.5.
+An advanced state machine based first person controller asset, made in Godot 4.
 
 
 ![Asset logo](https://raw.githubusercontent.com/Jeh3no/Godot-Advanced-FPS-Controller-Template/refs/heads/main/addons/Arts/logo.png)
