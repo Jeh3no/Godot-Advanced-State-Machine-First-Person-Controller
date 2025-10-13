@@ -85,7 +85,6 @@ you need to create a input action in your project for each action, and then type
 
 # **Credits**
 
-
-Kenney Prototype Textures, by Kenny, reworked for Godot by Calinou : https://godotengine.org/asset-library/asset/781
+Godot Theme Prototype Texturs, by PiCode : https://godotengine.org/asset-library/asset/2480
  
  
