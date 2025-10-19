@@ -21,6 +21,8 @@ The asset is 100% written in GDScript, and respect the GDScript convention.
 
 He works perfectly on Godot 4.5 and Godot 4.4, and should also works well on the others 4.x versions (4.3, 4.2, 4.1, 4.0), but you will have to remove the uid files.
 
+The video showcasing all the changes brought about with the last update (a lot, lot of things) : https://www.youtube.com/watch?v=4PkR2Z1oxG8
+
 
 # **Features**
 
@@ -84,6 +86,6 @@ you need to create a input action in your project for each action, and then type
 
 # **Credits**
 
-Godot Theme Prototype Texturs, by PiCode : https://godotengine.org/asset-library/asset/2480
+Godot Theme Prototype Textures, by PiCode : https://godotengine.org/asset-library/asset/2480
  
  
