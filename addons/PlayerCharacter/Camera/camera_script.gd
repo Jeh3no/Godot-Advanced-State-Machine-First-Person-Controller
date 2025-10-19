@@ -22,7 +22,7 @@ class_name CameraObject
 	"Walk" : Vector2(90.0, 0.2),
 	"Run" : Vector2(100.0, 0.2),
 	"Slide" : Vector2(100.0, 0.2),
-	"Dash" : Vector2(90.0, 0.2),
+	"Dash" : Vector2(120.0, 0.2),
 	"Fly" : Vector2(90.0, 0.2)
 }
  
