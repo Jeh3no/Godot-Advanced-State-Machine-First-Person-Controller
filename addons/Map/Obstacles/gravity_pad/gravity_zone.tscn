@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctf1yf3optph8"]
+
+[ext_resource type="Script" uid="uid://ddxx4btfu6xwe" path="res://addons/Map/Obstacles/gravity_pad/gravity_zone.gd" id="1_lbe3j"]
+[ext_resource type="Material" uid="uid://bnka266lmacek" path="res://addons/Arts/structure_material_red.tres" id="2_i36ro"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_lbe3j"]
+height = 4.0
+radius = 2.0
+
+[node name="GravityPad" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_lbe3j")
+
+[node name="ZoneCollision" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_lbe3j")
+
+[node name="CSGZone" type="CSGCylinder3D" parent="."]
+material_override = ExtResource("2_i36ro")
+transparency = 0.6
+radius = 2.0
+height = 4.0
+sides = 16

@@ -1,8 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://oj3blpxqf1bl"]
+[gd_scene load_steps=17 format=4 uid="uid://oj3blpxqf1bl"]
 
-[ext_resource type="PackedScene" uid="uid://bwggrf7sbmkcv" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/player_character_scene.tscn" id="1_hvhfo"]
-[ext_resource type="Material" uid="uid://cmlreoo2qwhp4" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/structure_material.tres" id="2_ivwfa"]
-[ext_resource type="Material" uid="uid://3ub3li5nvjsw" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/structure_material_2.tres" id="4_ivwfa"]
+[ext_resource type="PackedScene" uid="uid://bwggrf7sbmkcv" path="res://addons/PlayerCharacter/player_character_scene.tscn" id="1_hvhfo"]
+[ext_resource type="Material" uid="uid://cmlreoo2qwhp4" path="res://addons/Arts/structure_material.tres" id="2_ivwfa"]
+[ext_resource type="PackedScene" uid="uid://b84t3rpy4cau8" path="res://addons/Map/Obstacles/jump_pad/jump_pad.tscn" id="4_7e7um"]
+[ext_resource type="Material" uid="uid://3ub3li5nvjsw" path="res://addons/Arts/structure_material_2.tres" id="4_ivwfa"]
+[ext_resource type="Script" uid="uid://cpe3jrnwinlxh" path="res://addons/Map/Obstacles/slippery_zone/slippery_zone.gd" id="5_fiars"]
+[ext_resource type="PackedScene" uid="uid://ctf1yf3optph8" path="res://addons/Map/Obstacles/gravity_pad/gravity_zone.tscn" id="5_y6tot"]
+[ext_resource type="Material" uid="uid://bnka266lmacek" path="res://addons/Arts/structure_material_red.tres" id="6_fiars"]
+[ext_resource type="Script" uid="uid://jcfs61o33ary" path="res://addons/Map/Obstacles/conveyor_zone/conveyor_zone.gd" id="7_b02vy"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fjbi6"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -16,6 +21,32 @@ background_mode = 2
 sky = SubResource("Sky_43bpn")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b02vy"]
+size = Vector3(20, 0.001, 4)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_b02vy"]
+load_path = "res://.godot/imported/checker_red_512x512.png-63ae8d60d15081049217de10d70716ca.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhx2b"]
+albedo_texture = SubResource("CompressedTexture2D_b02vy")
+uv1_scale = Vector3(0.7, 0.7, 0.7)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_b02vy"]
+_surfaces = [{
+"aabb": AABB(-10, -0.0005, -2, 20, 0.001, 4),
+"attribute_data": PackedByteArray("AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/"),
+"format": 34359738391,
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("AAAgwW8SA7oAAABAAAAgwW8SA7oAAADAAAAgwW8SAzoAAADAAAAgQW8SA7oAAADAAAAgwW8SA7oAAADAAAAgwW8SA7oAAABAAAAgwW8SAzoAAADAAAAgwW8SA7oAAADAAAAgQW8SA7oAAADAAAAgwW8SAzoAAADAAAAgwW8SAzoAAABAAAAgwW8SA7oAAABAAAAgwW8SA7oAAABAAAAgwW8SAzoAAABAAAAgQW8SAzoAAABAAAAgQW8SAzoAAABAAAAgwW8SAzoAAABAAAAgwW8SAzoAAADAAAAgwW8SA7oAAABAAAAgQW8SA7oAAABAAAAgQW8SA7oAAADAAAAgQW8SAzoAAABAAAAgQW8SA7oAAABAAAAgwW8SA7oAAABAAAAgQW8SA7oAAADAAAAgQW8SA7oAAABAAAAgQW8SAzoAAABAAAAgQW8SA7oAAADAAAAgQW8SAzoAAADAAAAgwW8SAzoAAADAAAAgwW8SAzoAAADAAAAgQW8SAzoAAADAAAAgQW8SAzoAAABAAAAgQW8SAzoAAABAAAAgQW8SAzoAAADAAAAgQW8SA7oAAADAAAD/f/9//n8AAP9//3/+fwAA/3//f/5//38AAP//AAD/fwAA//8AAP9/AAD//wAA/////wAA/z//////AAD/P/////8AAP8/AAD/f/9//n8AAP9//3/+fwAA/3//f/5//3//fwAA/z//f/9/AAD/P/9//38AAP8//3//////AAD/f/////8AAP9//////wAA/38AAP//AAD/fwAA//8AAP9/AAD//wAA/3//fwAA/z//f/9/AAD/P/9//38AAP8/////f/9//n////9//3/+f////3//f/5//////wAA/z//////AAD/P/////8AAP8//3//////AAD/f/////8AAP9//////wAA////f/9//n////9//3/+f////3//f/5/")
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fiars"]
+size = Vector3(20, 0.001, 4)
 
 [node name="TemplateMap" type="Node3D"]
 
@@ -32,9 +63,6 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.7646, 1.50542, -19.959)
 
 [node name="PlayerCharacter" parent="PlayerCharacter" instance=ExtResource("1_hvhfo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0408888, 0)
-floor_block_on_wall = true
-floor_max_angle = 0.785398
 
 [node name="Map" type="Node3D" parent="."]
 
@@ -192,3 +220,44 @@ radius = 4.4
 radial_segments = 32
 rings = 12
 material = ExtResource("4_ivwfa")
+
+[node name="Obstacles" type="Node3D" parent="."]
+
+[node name="JumpPad" parent="Obstacles" instance=ExtResource("4_7e7um")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.665192, 1.0000002, -42.849663)
+
+[node name="SlipperyZone" type="Area3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.602257, 1.0000002, -42.849663)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5_fiars")
+
+[node name="CSGZone" type="CSGBox3D" parent="Obstacles/SlipperyZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49950004, 0)
+material_override = ExtResource("6_fiars")
+size = Vector3(20, 0.001, 4)
+
+[node name="ZoneCollision" type="CollisionShape3D" parent="Obstacles/SlipperyZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49950004, 0.002380371)
+shape = SubResource("BoxShape3D_b02vy")
+
+[node name="ConveyorZone" type="Area3D" parent="Obstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.602257, 1.0000002, -32.3543)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_b02vy")
+scroll_texture = true
+mesh_instance_path = NodePath("ZoneMesh")
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="Obstacles/ConveyorZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49950004, 0)
+material_override = SubResource("StandardMaterial3D_xhx2b")
+mesh = SubResource("ArrayMesh_b02vy")
+
+[node name="ZoneCollision" type="CollisionShape3D" parent="Obstacles/ConveyorZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49950004, 0.002380371)
+shape = SubResource("BoxShape3D_fiars")
+
+[node name="GravityZone" parent="Obstacles" instance=ExtResource("5_y6tot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.607971, 2.500933, -42.849663)
+gravity_multiplier = -1.0

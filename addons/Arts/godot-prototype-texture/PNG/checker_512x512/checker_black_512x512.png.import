@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://65bielav3roh"
-path.s3tc="res://.godot/imported/checker_black_512x512.png-24f95ade941f489d520c5410db4ffabc.s3tc.ctex"
+path.s3tc="res://.godot/imported/checker_black_512x512.png-850f9687c8786e3df48c9c12af6d7e53.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/godot-prototype-texture/PNG/checker_512x512/checker_black_512x512.png"
-dest_files=["res://.godot/imported/checker_black_512x512.png-24f95ade941f489d520c5410db4ffabc.s3tc.ctex"]
+source_file="res://addons/Arts/godot-prototype-texture/PNG/checker_512x512/checker_black_512x512.png"
+dest_files=["res://.godot/imported/checker_black_512x512.png-850f9687c8786e3df48c9c12af6d7e53.s3tc.ctex"]
 
 [params]
 
