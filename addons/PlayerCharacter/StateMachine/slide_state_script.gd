@@ -121,8 +121,8 @@ func move(delta : float) -> void:
 			play_char.velocity.x = play_char.move_direction.x * play_char.desired_move_speed
 			play_char.velocity.z = play_char.move_direction.z * play_char.desired_move_speed
 		else:
-			if slope_angle < play_char.maxslope_angle and (play_char.desired_move_speed - play_char.amount_velocity_lost_per_sec * delta > 0.0): play_char.move_speed -= play_char.amount_velocity_lost_per_sec * delta
-			else: play_char.move_speed += play_char.slopeSlidingMsInplay_chare * delta
+			if slope_angle < play_char.max_slope_angle and (play_char.desired_move_speed - play_char.amount_velocity_lost_per_sec * delta > 0.0): play_char.move_speed -= play_char.amount_velocity_lost_per_sec * delta
+			else: play_char.move_speed += play_char.slope_sliding_ms_incre	 * delta
 			
 			play_char.velocity.x = lerp(play_char.velocity.x, play_char.move_direction.x * play_char.move_speed, play_char.move_accel * delta)
 			play_char.velocity.z = lerp(play_char.velocity.z, play_char.move_direction.z * play_char.move_speed, play_char.move_accel * delta)
