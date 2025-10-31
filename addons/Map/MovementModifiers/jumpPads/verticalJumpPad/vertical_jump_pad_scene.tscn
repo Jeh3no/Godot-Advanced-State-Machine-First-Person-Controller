@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://b84t3rpy4cau8"]
+
+[ext_resource type="Script" uid="uid://ch2miryixkhp8" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Map/MovementModifiers/jumpPads/jump_pad_script.gd" id="1_53g1g"]
+[ext_resource type="Texture2D" uid="uid://5ppiu6jhtnkm" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/godot-prototype-texture/PNG/checker_512x512/checker_blue_512x512.png" id="3_s38xc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s38xc"]
+albedo_texture = ExtResource("3_s38xc")
+emission_enabled = true
+emission = Color(0, 0, 0.83137256, 1)
+emission_energy_multiplier = 0.6
+uv1_scale = Vector3(0.7, 0.7, 0.7)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y6tot"]
+size = Vector3(5, 0.4, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_upj3g"]
+albedo_texture = ExtResource("3_s38xc")
+emission_enabled = true
+emission = Color(0.18431373, 0.827451, 0.92156863, 1)
+emission_energy_multiplier = 0.5
+uv1_scale = Vector3(0.7, 0.7, 0.7)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_x34fu"]
+material = SubResource("StandardMaterial3D_upj3g")
+size = Vector2(2.85, 2.85)
+
+[node name="VerticalJumpPad" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_53g1g")
+
+[node name="CSGPad" type="CSGBox3D" parent="."]
+material_override = SubResource("StandardMaterial3D_s38xc")
+size = Vector3(5, 0.4, 5)
+
+[node name="PadCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.002380371)
+shape = SubResource("BoxShape3D_y6tot")
+
+[node name="CenteredPlaneMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22133052, 0)
+mesh = SubResource("PlaneMesh_x34fu")

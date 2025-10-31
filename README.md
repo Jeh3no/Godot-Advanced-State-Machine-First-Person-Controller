@@ -9,7 +9,7 @@ An advanced and complete state machine first person controller asset, made in Go
 
 This asset provides a simple, fully commented, finite state machine based controller, camera, as well as a properties HUD.
 
-A test map is provided to test the controller.
+A test map is provided to test the controller, with interactive structures allowing to test the various functionalities : slopes, spheres, jumppad (both vertical and directional), gravity area, conveyor area, slippery area
 
 The controller use a finite state machine, designed to be easely editable, allowing to easily add, remove and modify behaviours and actions.
 
@@ -87,5 +87,11 @@ you need to create a input action in your project for each action, and then type
 # **Credits**
 
 Godot Theme Prototype Textures, by PiCode : https://godotengine.org/asset-library/asset/2480
- 
- 
+
+psychowolf960 (Github account name), for resolving some typo issues, as well as adding the following interactive structures/movement modifiers :
+-vertical jump pad
+-conveyor area
+-slippery area
+-gravity area
+
+	

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://djqwgcp3ehij1"]
+
+[ext_resource type="Script" uid="uid://cpe3jrnwinlxh" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Map/MovementModifiers/slipperyZone/slippery_zone_script.gd" id="1_uuc2g"]
+[ext_resource type="Material" uid="uid://bnka266lmacek" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/structure_material_red.tres" id="2_1st6g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b02vy"]
+size = Vector3(20, 0.001, 4)
+
+[node name="SlipperyZone" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_uuc2g")
+
+[node name="CSGZone" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49950004, 0)
+material_override = ExtResource("2_1st6g")
+size = Vector3(20, 0.001, 4)
+
+[node name="ZoneCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49950004, 0.002380371)
+shape = SubResource("BoxShape3D_b02vy")

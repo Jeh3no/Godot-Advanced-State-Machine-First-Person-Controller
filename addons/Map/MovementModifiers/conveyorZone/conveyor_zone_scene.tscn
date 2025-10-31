@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=4 uid="uid://d4gavwq81shmv"]
+
+[ext_resource type="Script" uid="uid://jcfs61o33ary" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Map/MovementModifiers/conveyorZone/conveyor_zone_script.gd" id="1_nmpw7"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_b02vy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xhx2b"]
+albedo_texture = SubResource("CompressedTexture2D_b02vy")
+uv1_scale = Vector3(0.7, 0.7, 0.7)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_b02vy"]
+_surfaces = [{
+"aabb": AABB(-10, -0.0005, -2, 20, 0.001, 4),
+"attribute_data": PackedByteArray("AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/"),
+"format": 34359738391,
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("AAAgwW8SA7oAAABAAAAgwW8SA7oAAADAAAAgwW8SAzoAAADAAAAgQW8SA7oAAADAAAAgwW8SA7oAAADAAAAgwW8SA7oAAABAAAAgwW8SAzoAAADAAAAgwW8SA7oAAADAAAAgQW8SA7oAAADAAAAgwW8SAzoAAADAAAAgwW8SAzoAAABAAAAgwW8SA7oAAABAAAAgwW8SA7oAAABAAAAgwW8SAzoAAABAAAAgQW8SAzoAAABAAAAgQW8SAzoAAABAAAAgwW8SAzoAAABAAAAgwW8SAzoAAADAAAAgwW8SA7oAAABAAAAgQW8SA7oAAABAAAAgQW8SA7oAAADAAAAgQW8SAzoAAABAAAAgQW8SA7oAAABAAAAgwW8SA7oAAABAAAAgQW8SA7oAAADAAAAgQW8SA7oAAABAAAAgQW8SAzoAAABAAAAgQW8SA7oAAADAAAAgQW8SAzoAAADAAAAgwW8SAzoAAADAAAAgwW8SAzoAAADAAAAgQW8SAzoAAADAAAAgQW8SAzoAAABAAAAgQW8SAzoAAABAAAAgQW8SAzoAAADAAAAgQW8SA7oAAADAAAD/f/9//n8AAP9//3/+fwAA/3//f/5//38AAP//AAD/fwAA//8AAP9/AAD//wAA/////wAA/z//////AAD/P/////8AAP8/AAD/f/9//n8AAP9//3/+fwAA/3//f/5//3//fwAA/z//f/9/AAD/P/9//38AAP8//3//////AAD/f/////8AAP9//////wAA/38AAP//AAD/fwAA//8AAP9/AAD//wAA/3//fwAA/z//f/9/AAD/P/9//38AAP8/////f/9//n////9//3/+f////3//f/5//////wAA/z//////AAD/P/////8AAP8//3//////AAD/f/////8AAP9//////wAA////f/9//n////9//3/+f////3//f/5/")
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fiars"]
+size = Vector3(20, 0.001, 4)
+
+[node name="ConveyorZone" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_nmpw7")
+texture_scroll_enabled = true
+mesh_instance_path = NodePath("ZoneMesh")
+
+[node name="ZoneMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49950004, 0)
+material_override = SubResource("StandardMaterial3D_xhx2b")
+mesh = SubResource("ArrayMesh_b02vy")
+
+[node name="ZoneCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49950004, 0.002380371)
+shape = SubResource("BoxShape3D_fiars")

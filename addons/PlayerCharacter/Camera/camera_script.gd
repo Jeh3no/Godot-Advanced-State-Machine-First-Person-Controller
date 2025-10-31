@@ -22,10 +22,10 @@ class_name CameraObject
 	"Walk" : Vector2(90.0, 0.2),
 	"Run" : Vector2(100.0, 0.2),
 	"Slide" : Vector2(100.0, 0.2),
-	"Dash" : Vector2(120.0, 0.2),
+	"Dash" : Vector2(110.0, 0.05),
 	"Fly" : Vector2(90.0, 0.2)
 }
- 
+
 @export_group("Zoom variables")
 var zoom_on : bool = false
 var zoom_has_occured : bool = false

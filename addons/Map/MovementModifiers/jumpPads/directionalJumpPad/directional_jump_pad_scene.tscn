@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://ct3rwravhrwk1"]
+
+[ext_resource type="Texture2D" uid="uid://5ppiu6jhtnkm" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/godot-prototype-texture/PNG/checker_512x512/checker_blue_512x512.png" id="1_bdr6x"]
+[ext_resource type="Script" uid="uid://ch2miryixkhp8" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Map/MovementModifiers/jumpPads/jump_pad_script.gd" id="1_y1g15"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q4rg5"]
+albedo_texture = ExtResource("1_bdr6x")
+emission_enabled = true
+emission = Color(0, 0, 0.83137256, 1)
+emission_energy_multiplier = 0.6
+uv1_scale = Vector3(0.7, 0.7, 0.7)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_upj3g"]
+albedo_texture = ExtResource("1_bdr6x")
+emission_enabled = true
+emission = Color(0.18431373, 0.827451, 0.92156863, 1)
+emission_energy_multiplier = 0.5
+uv1_scale = Vector3(0.7, 0.7, 0.7)
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_q4rg5"]
+material = SubResource("StandardMaterial3D_upj3g")
+size = Vector2(4.5, 2.85)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y1g15"]
+size = Vector3(5.79204, 0.3821411, 3.9779892)
+
+[node name="DirectionalJumpPad" type="Area3D"]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_y1g15")
+override_velocity = true
+overrided_direction = Vector3(0, 60, 60)
+
+[node name="CSGPad" type="CSGPolygon3D" parent="."]
+transform = Transform3D(0.9999998, 0, 0, 0, 1, 0, 0, 0, 3.9999993, 2.6961298, 0.094228745, -0.024429321)
+use_collision = true
+collision_mask = 2
+polygon = PackedVector2Array(-1, -1, -1, 1, 4.5, -1)
+material = SubResource("StandardMaterial3D_q4rg5")
+
+[node name="CenteredPlaneMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9396925, 0.3420201, 0, -0.3420201, 0.9396925, 0, 0, 0, 0.99999994, 4.4047165, 0.11065352, -2.0496216)
+mesh = SubResource("PlaneMesh_q4rg5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.9396275, 0.3420194, 0, -0.3419965, 0.9396909, 0, 0, 0, 0.99993014, 4.486449, 0.2626006, -2.031812)
+shape = SubResource("BoxShape3D_y1g15")

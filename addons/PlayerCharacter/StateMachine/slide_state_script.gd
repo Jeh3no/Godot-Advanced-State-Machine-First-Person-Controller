@@ -96,7 +96,7 @@ func input_management() -> void:
 		#has to continuously press slide button to play_charouch
 		if !Input.is_action_pressed(play_char.slide_action):
 			if !raycast_verification():
-				play_char.slideTime = -1.0
+				play_char.slide_time = -1.0
 				play_char.slide_direction = Vector3.ZERO
 				play_char.time_bef_can_slide_again = play_char.time_bef_can_slide_again_ref
 				if !raycast_verification():
