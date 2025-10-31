@@ -9,7 +9,7 @@ An advanced and complete state machine first person controller asset, made in Go
 
 This asset provides a simple, fully commented, finite state machine based controller, camera, as well as a properties HUD.
 
-A test map is provided to test the controller, with interactive structures allowing to test the various functionalities : slopes, spheres, jumppad (both vertical and directional), gravity area, conveyor area, slippery area.
+A test map is provided to test the controller, with interactive structures allowing to test the various functionalities : slopes, spheres, jumppad (both vertical and directional), gravity area, conveyor area, slippery area
 
 The controller use a finite state machine, designed to be easely editable, allowing to easily add, remove and modify behaviours and actions.
 
