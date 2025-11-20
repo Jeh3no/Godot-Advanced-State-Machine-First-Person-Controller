@@ -9,7 +9,7 @@ var move_deccel: float
 var input_direction: Vector2
 var move_direction: Vector3
 var desired_move_speed: float
-@export var desired_move_speed_curve: Curve
+@export var desired_move_speed_curve: Curve #accumulated speed
 @export var max_desired_move_speed: float = 30.0
 @export var in_air_move_speed_curve: Curve
 @export var hit_ground_cooldown: float = 0.1 #amount of time the character keep his accumulated speed before losing it (while being on ground)
@@ -20,6 +20,8 @@ var last_frame_position: Vector3
 var last_frame_velocity: Vector3
 var was_on_floor: bool
 var walk_or_run: String = "WalkState" #keep in memory if play char was walking or running before being in the air
+@export var lose_vel_if_hit_wall_in_air : bool = false #vel = velocity
+@export var lose_dms_if_hit_wall_in_air : bool = false #dms = desired move speed
 #for states that require visible changes of the model
 @export var base_hitbox_height: float = 2.0
 @export var base_model_height: float = 1.0

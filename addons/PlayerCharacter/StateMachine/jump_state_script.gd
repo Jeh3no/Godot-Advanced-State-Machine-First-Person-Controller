@@ -60,9 +60,11 @@ func check_if_floor():
 	
 	#lose all velocity and accumulated speed if play char hit a wall
 	if play_char.is_on_wall():
-		play_char.desired_move_speed = 0.0
-		play_char.velocity.x = 0.0
-		play_char.velocity.z = 0.0
+		if play_char.lose_dms_if_hit_wall_in_air:
+			play_char.desired_move_speed = 0.0
+		if play_char.lose_vel_if_hit_wall_in_air:
+			play_char.velocity.x = 0.0
+			play_char.velocity.z = 0.0
 		
 func move(delta : float) -> void:
 	play_char.input_direction = Input.get_vector(play_char.move_left_action, play_char.move_right_action, play_char.move_forward_action, play_char.move_backward_action)
