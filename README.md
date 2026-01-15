@@ -51,6 +51,7 @@ The video showcasing all the changes brought about with the last update (a lot, 
    
  - Reticle
  - Properties HUD
+ - Input action checker
 
    
 # **Purpose**
