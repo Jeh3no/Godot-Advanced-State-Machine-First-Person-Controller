@@ -10,7 +10,6 @@ An advanced and complete state machine first person controller asset, made in Go
 This asset provides a simple, fully commented, finite state machine based controller, camera, as well as a properties HUD.
 
 A test map is provided to test the controller, with interactive structures allowing to test the various functionalities : slopes, spheres, jumppad (both vertical and directional), gravity area, conveyor area, slippery area
-A test map is provided to test the controller, with interactive structures allowing to test the various functionalities : slopes, spheres, jumppad (both vertical and directional), gravity area, conveyor area, slippery area.
 
 The controller use a finite state machine, designed to be easely editable, allowing to easily add, remove and modify behaviours and actions.
 
@@ -42,6 +41,8 @@ The video showcasing all the changes brought about with the last update (a lot, 
  - Dashing (multiple dash system)
  - Sliding (on flat surfaces and on slopes)
  - Flying
+ - Wallrunning
+ - Walljumping
 
  - Camera FOV management
  - Camera tilt (forward and side tilt)
@@ -70,7 +71,9 @@ Simply download it, add it to your project, get the files you want to use.
 
 You will see for the player character script (and in the camera script) a keybinding variables group,
 
-you need to create a input action in your project for each action, and then type the exact same name into the corresponding input action variable
+you need to create a input action in your project for each action, and then type the exact same name into the corresponding input action variable.
+
+### Important, if you want to use the input action checker, you must add "play_char_" before any input action related to the player character (movement, camera, hud), both in the input map, and in the script.
 
 (for example : name your move forward action "move_forward", and then type "move_forward" into the variable "move_forward_action").
 
