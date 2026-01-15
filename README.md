@@ -47,7 +47,6 @@ The video showcasing all the changes brought about with the last update (a lot, 
  - Camera FOV management
  - Camera tilt (forward and side tilt)
  - Camera bob
- - Camera lean
  - Camera zoom
    
  - Reticle
@@ -73,7 +72,7 @@ You will see for the player character script (and in the camera script) a keybin
 
 you need to create a input action in your project for each action, and then type the exact same name into the corresponding input action variable.
 
-### Important, if you want to use the input action checker, you must add "play_char_" before any input action related to the player character (movement, camera, hud), both in the input map, and in the script.
+### Important : if you want to use the input action checker, you must add "play_char_" before any input action related to the player character (movement, camera, hud), both in the input map, and in the script.
 
 (for example : name your move forward action "move_forward", and then type "move_forward" into the variable "move_forward_action").
 
