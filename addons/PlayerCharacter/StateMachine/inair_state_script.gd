@@ -25,14 +25,27 @@ func physics_update(delta : float) -> void:
 	
 	input_management()
 	
-	check_if_floor()
-	
 	move(delta)
+	
+	wall_check()
 	
 func applies(delta : float) -> void:
 	if !play_char.is_on_floor(): 
 		if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
 		if play_char.coyote_jump_cooldown > 0.0: play_char.coyote_jump_cooldown -= delta
+		if play_char.walljump_lock_in_air_movement_time > 0.0: play_char.walljump_lock_in_air_movement_time -= delta
+		
+	if play_char.is_on_floor():
+		if play_char.jump_buff_on: 
+			play_char.buffered_jump = true
+			play_char.jump_buff_on = false
+			transitioned.emit(self, "JumpState")
+		if play_char.slide_buff_on:
+			play_char.slide_buff_on = false
+			transitioned.emit(self, "SlideState") 
+		else:
+			if play_char.move_direction: transitioned.emit(self, play_char.walk_or_run)
+			else: transitioned.emit(self, "IdleState")
 		
 func input_management() -> void:
 	if Input.is_action_just_pressed(play_char.jump_action):
@@ -56,26 +69,20 @@ func input_management() -> void:
 		if play_char.slide_floor_check.is_colliding() and play_char.last_frame_position.y > play_char.position.y and  play_char.time_bef_can_slide_again <= 0.0:
 			play_char.slide_buff_on = true
 			
-func check_if_floor() -> void:
-	if play_char.is_on_floor():
-		if play_char.jump_buff_on: 
-			play_char.buffered_jump = true
-			play_char.jump_buff_on = false
-			transitioned.emit(self, "JumpState")
-		if play_char.slide_buff_on:
-			play_char.slide_buff_on = false
-			transitioned.emit(self, "SlideState") 
+func wall_check() -> void:
+	if play_char.can_wallrun and (!play_char.is_on_floor() or play_char.is_on_wall()) and !play_char.wallrun_floor_check.is_colliding():
+		if play_char.left_wall_check.is_colliding() and !play_char.right_wall_check.is_colliding() and \
+		play_char.last_wallrunned_wall_out_of_time != -1:
+			play_char.side_check_raycast_collided = -1
+			play_char.last_wallrunned_wall_out_of_time = 0
+			transitioned.emit(self, "WallrunState")
+		elif !play_char.left_wall_check.is_colliding() and play_char.right_wall_check.is_colliding() and \
+		play_char.last_wallrunned_wall_out_of_time != 1:
+			play_char.side_check_raycast_collided = 1
+			play_char.last_wallrunned_wall_out_of_time = 0
+			transitioned.emit(self, "WallrunState")
 		else:
-			if play_char.move_direction: transitioned.emit(self, play_char.walk_or_run)
-			else: transitioned.emit(self, "IdleState")
-			
-	#lose all velocity and accumulated speed if play char hit a wall
-	if play_char.is_on_wall():
-		if play_char.lose_dms_if_hit_wall_in_air:
-			play_char.desired_move_speed = 0.0
-		if play_char.lose_vel_if_hit_wall_in_air:
-			play_char.velocity.x = 0.0
-			play_char.velocity.z = 0.0
+			return
 			
 func move(delta : float) -> void:
 	play_char.input_direction = Input.get_vector(play_char.move_left_action, play_char.move_right_action, play_char.move_forward_action, play_char.move_backward_action)
@@ -89,11 +96,12 @@ func move(delta : float) -> void:
 			
 			#use of curves here to have a better in air movement
 			var contrd_des_move_speed : float = play_char.desired_move_speed_curve.sample(play_char.desired_move_speed)
-			var contrd_in_air_move_speed : float = play_char.in_air_move_speed_curve.sample(play_char.desired_move_speed) * play_char.in_air_input_multiplier
+			var contrd_in_air_move_speed : float = play_char.in_air_move_speed_curve.sample(play_char.desired_move_speed) * 1.0
 			
-			play_char.velocity.x = lerp(play_char.velocity.x, play_char.move_direction.x * contrd_des_move_speed, contrd_in_air_move_speed * delta)
-			play_char.velocity.z = lerp(play_char.velocity.z, play_char.move_direction.z * contrd_des_move_speed, contrd_in_air_move_speed * delta)
-		
+			if play_char.walljump_lock_in_air_movement_time <= 0.0:
+				play_char.velocity.x = lerp(play_char.velocity.x, play_char.move_direction.x * contrd_des_move_speed, contrd_in_air_move_speed * delta)
+				play_char.velocity.z = lerp(play_char.velocity.z, play_char.move_direction.z * contrd_des_move_speed, contrd_in_air_move_speed * delta)
+				
 		if !play_char.move_direction and play_char.has_dashed:
 			#if play char dash, and drop input direction key, need to reset velocity to her pre dash self, to ensure that play char won't keep dash velocity after transitioning to inair state
 			play_char.has_dashed = false

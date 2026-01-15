@@ -20,6 +20,7 @@ class_name HUD
 @onready var slide_cooldown_label_text: Label = %SlideCooldownLabelText
 @onready var nb_dashs_allowed_label_text: Label = %NbDashsAllowedLabelText
 @onready var dash_cooldown_label_text: Label = %DashCooldownLabelText
+@onready var wallrun_time_label_text : Label = %WallrunTimeLabelText
 @onready var frames_per_second_label_text: Label = %FramesPerSecondLabelText
 @onready var camera_rotation_label_text: Label = %CameraRotationLabelText
 @onready var current_fov_label_text: Label = %CurrentFOVLabelText
@@ -47,6 +48,7 @@ func display_properties() -> void:
 	slide_cooldown_label_text.set_text(str(round_to_3_decimals(play_char.time_bef_can_slide_again)))
 	nb_dashs_allowed_label_text.set_text(str(play_char.nb_dashs_allowed))
 	dash_cooldown_label_text.set_text(str(round_to_3_decimals(play_char.time_bef_can_dash_again)))
+	wallrun_time_label_text.set_text(str(round_to_3_decimals(play_char.wallrun_time)))
 	
 	#camera properties
 	camera_rotation_label_text.set_text(str("[ ", round_to_3_decimals(play_char.cam.rotation.x)," ", round_to_3_decimals(play_char.cam.rotation.y)," ", round_to_3_decimals(play_char.cam.rotation.z), " ]"))

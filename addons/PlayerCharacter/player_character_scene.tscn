@@ -1,10 +1,11 @@
-[gd_scene load_steps=25 format=3 uid="uid://bwggrf7sbmkcv"]
+[gd_scene load_steps=26 format=3 uid="uid://bwggrf7sbmkcv"]
 
 [ext_resource type="Script" uid="uid://d3s8yxuvpmekm" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/player_character_script.gd" id="1_h128t"]
 [ext_resource type="Script" uid="uid://b0fbr48rbvn27" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/Camera/camera_script.gd" id="2_x12n0"]
 [ext_resource type="Script" uid="uid://8g033x6qm1rx" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/fly_state_script.gd" id="9_ph066"]
 [ext_resource type="Script" uid="uid://hc1xroood24q" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/slide_state_script.gd" id="10_poibi"]
 [ext_resource type="Script" uid="uid://c4skioddhqatw" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/dash_state_script.gd" id="11_khex2"]
+[ext_resource type="Script" uid="uid://bq1stj2mujnp2" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/wallrun_state_script.gd" id="12_5fuve"]
 [ext_resource type="LabelSettings" uid="uid://bs0stms0b56kp" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/label_settings.tres" id="14_gfbru"]
 [ext_resource type="Shader" uid="uid://b34228uop3gdf" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/Shaders/speed_lines_shader.gdshader" id="14_jv0i6"]
 [ext_resource type="Script" uid="uid://dx02l6p6behb8" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/UI/hud_script.gd" id="16_5jm78"]
@@ -69,16 +70,19 @@ dash_speed = 90.0
 dash_time = 0.09
 time_bef_can_dash_again = 0.5
 time_bef_reload_dash = 1.0
-move_forward_action = "move_forward"
-move_backward_action = "move_backward"
-move_left_action = "move_left"
-move_right_action = "move_right"
-run_action = "run"
-crouch_action = "crouch"
-jump_action = "jump"
-slide_action = "slide"
-dash_action = "dash"
-fly_action = "fly"
+infinite_wallrun_time = false
+walljump_y_velocity = 9.0
+walljump_lock_in_air_movement_time = 0.15
+move_forward_action = &"play_char_move_forward"
+move_backward_action = &"play_char_move_backward"
+move_left_action = &"play_char_move_left"
+move_right_action = &"play_char_move_right"
+run_action = &"play_char_run"
+crouch_action = &"play_char_crouch"
+jump_action = &"play_char_jump"
+slide_action = &"play_char_slide"
+dash_action = &"play_char_dash"
+fly_action = &"play_char_fly"
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("54_e0r17")
@@ -120,13 +124,17 @@ metadata/_custom_type_script = "uid://c4skioddhqatw"
 script = ExtResource("9_ph066")
 metadata/_custom_type_script = "uid://8g033x6qm1rx"
 
+[node name="WallrunState" type="Node" parent="StateMachine"]
+script = ExtResource("12_5fuve")
+metadata/_custom_type_script = "uid://bq1stj2mujnp2"
+
 [node name="CameraHolder" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.715, 0)
 script = ExtResource("2_x12n0")
-enable_lean = true
 forward_move_max_tilt_val = 100.0
-zoom_action = "zoom"
-mouse_mode_action = "mouse_mode"
+zoom_action = &"play_char_zoom"
+mouse_mode_action = &"play_char_mouse_mode"
+check_on_ready_if_inputs_registered = true
 
 [node name="Camera" type="Camera3D" parent="CameraHolder"]
 unique_name_in_owner = true
@@ -135,6 +143,24 @@ current = true
 fov = 90.0
 near = 0.01
 far = 1000.0
+
+[node name="CameraBasedRaycasts" type="Node3D" parent="CameraHolder/Camera"]
+
+[node name="LeftWallCheck" type="RayCast3D" parent="CameraHolder/Camera/CameraBasedRaycasts"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.715, 0)
+exclude_parent = false
+target_position = Vector3(1, 0, 0)
+collision_mask = 4
+debug_shape_custom_color = Color(0.91764706, 0.79607844, 0.18039216, 1)
+
+[node name="RightWallCheck" type="RayCast3D" parent="CameraHolder/Camera/CameraBasedRaycasts"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.715, 0)
+exclude_parent = false
+target_position = Vector3(-1, 0, 0)
+collision_mask = 4
+debug_shape_custom_color = Color(0.91764706, 0.79607844, 0.18039216, 1)
 
 [node name="Hitbox" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_5yjma")
@@ -145,6 +171,7 @@ material_override = SubResource("StandardMaterial3D_6bkys")
 mesh = SubResource("CapsuleMesh_p2iaj")
 
 [node name="Raycasts" type="Node3D" parent="."]
+visible = false
 
 [node name="CeilingCheck" type="RayCast3D" parent="Raycasts"]
 unique_name_in_owner = true
@@ -158,6 +185,12 @@ unique_name_in_owner = true
 exclude_parent = false
 target_position = Vector3(0, -3, 0)
 debug_shape_custom_color = Color(0, 0.823529, 0.956863, 1)
+
+[node name="WallrunFloorCheck" type="RayCast3D" parent="Raycasts"]
+unique_name_in_owner = true
+exclude_parent = false
+target_position = Vector3(0, -1.7, 0)
+debug_shape_custom_color = Color(0, 0.3372549, 0.7176471, 1)
 
 [node name="SlideFloorCheck" type="RayCast3D" parent="Raycasts"]
 unique_name_in_owner = true
@@ -289,6 +322,14 @@ texture_filter = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Time before can dash again :"
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="WallrunTimeLabel" type="Label" parent="HUD/PlayCharInfos/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Wallrun time :"
 label_settings = ExtResource("14_gfbru")
 vertical_alignment = 1
 
@@ -441,6 +482,15 @@ label_settings = ExtResource("14_gfbru")
 vertical_alignment = 1
 
 [node name="DashCooldownLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "..................."
+label_settings = ExtResource("14_gfbru")
+vertical_alignment = 1
+
+[node name="WallrunTimeLabelText" type="Label" parent="HUD/PlayCharInfos/VBoxContainer2"]
 unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2

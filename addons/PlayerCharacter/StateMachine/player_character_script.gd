@@ -20,8 +20,6 @@ var last_frame_position: Vector3
 var last_frame_velocity: Vector3
 var was_on_floor: bool
 var walk_or_run: String = "WalkState" #keep in memory if play char was walking or running before being in the air
-@export var lose_vel_if_hit_wall_in_air : bool = false #vel = velocity
-@export var lose_dms_if_hit_wall_in_air : bool = false #dms = desired move speed
 #for states that require visible changes of the model
 @export var base_hitbox_height: float = 2.0
 @export var base_model_height: float = 1.0
@@ -60,7 +58,6 @@ var buffered_jump: bool = false
 @export var coyote_jump_cooldown: float = 0.3
 var coyote_jump_cooldown_ref: float
 var coyote_jump_on: bool = false
-@export_range(0.1, 1.0, 0.05) var in_air_input_multiplier: float = 1.0
 
 @export_group("Slide variables")
 var slide_direction: Vector3 = Vector3.ZERO
@@ -96,6 +93,31 @@ var time_bef_reload_dash_ref: float
 var velocity_pre_dash : Vector3
 var has_dashed : bool = false
 
+@export_group("Wallrun variables")
+var can_wallrun : bool = true
+var side_check_raycast_collided : int = 0 #if -1, left side, if 1, right side
+var last_wallrunned_wall_out_of_time : int = 0 #if -1, left side, if 1, right side
+var wall_normal : Vector3 = Vector3.ZERO
+var wall_forward_dir : Vector3 = Vector3.ZERO
+@export var use_desired_move_speed_wallrun : bool = false
+@export var wallrun_speed : float = 18.0
+@export var wallrun_accel : float = 2.3
+@export var wallrun_deccel : float = 7.0
+@export_range(0.0, 1.0, 0.001) var wallrun_fall_gravity_multiplier : float = 0.006
+@export var wallrun_time : float = 3.5
+var wallrun_time_ref : float 
+@export var infinite_wallrun_time : bool = true
+@export var time_bef_can_wallrun_again : float = 0.2
+var time_bef_can_wallrun_again_ref : float
+@export var wallrunning_dms_incre : float = 1.0
+
+@export_group("Walljump variables")
+var about_to_jump_vel : Vector3
+@export var walljump_push_force : float = 14.0
+@export var walljump_y_velocity : float = 8.0
+@export var walljump_lock_in_air_movement_time : float = 0.2
+var walljump_lock_in_air_movement_time_ref : float
+
 @export_group("Fly variables")
 @export var fly_speed: float = 20.0
 @export var fly_accel: float = 15.0
@@ -108,16 +130,19 @@ var fly_boost_on: bool = false
 @onready var fall_gravity: float = (-2.0 * jump_height) / (jump_time_to_fall * jump_time_to_fall)
 
 @export_group("Keybind variables")
-@export var move_forward_action: String = ""
-@export var move_backward_action: String = ""
-@export var move_left_action: String = ""
-@export var move_right_action: String = ""
-@export var run_action: String = ""
-@export var crouch_action: String = ""
-@export var jump_action: String = ""
-@export var slide_action: String = ""
-@export var dash_action: String = ""
-@export var fly_action: String = ""
+@export var move_forward_action: StringName = ""
+@export var move_backward_action: StringName = ""
+@export var move_left_action: StringName = ""
+@export var move_right_action: StringName = ""
+@export var run_action: StringName = ""
+@export var crouch_action: StringName = ""
+@export var jump_action: StringName = ""
+@export var slide_action: StringName = ""
+@export var dash_action: StringName = ""
+@export var fly_action: StringName = ""
+@onready var input_actions_list : Array[StringName] = [move_forward_action, move_backward_action, move_left_action, move_right_action, 
+run_action, crouch_action, jump_action, slide_action, dash_action, fly_action]
+@export var check_on_ready_if_inputs_registered : bool = false
 
 #references variables
 @onready var cam_holder: Node3D = $CameraHolder
@@ -128,7 +153,10 @@ var fly_boost_on: bool = false
 @onready var hud: CanvasLayer = $HUD
 @onready var ceiling_check: RayCast3D = %CeilingCheck
 @onready var floor_check: RayCast3D = %FloorCheck
+@onready var wallrun_floor_check : RayCast3D = %WallrunFloorCheck
 @onready var slide_floor_check: RayCast3D = %SlideFloorCheck
+@onready var left_wall_check : RayCast3D = %LeftWallCheck
+@onready var right_wall_check : RayCast3D = %RightWallCheck
 
 func _ready() -> void:
 	#set and value references
@@ -145,25 +173,58 @@ func _ready() -> void:
 	time_bef_reload_dash_ref = time_bef_reload_dash
 	time_bef_reload_dash = -1.0
 	nb_dashs_allowed_ref = nb_dashs_allowed
+	wallrun_time_ref = wallrun_time
+	time_bef_can_wallrun_again_ref = time_bef_can_wallrun_again
+	walljump_lock_in_air_movement_time_ref = walljump_lock_in_air_movement_time
+	walljump_lock_in_air_movement_time = -1.0
 	
+	input_actions_check()
+	
+func input_actions_check() -> void:
+	#check if the input actions written in the editor are the same as the ones registered in the Input map, and if they are written correctly
+	#if not, stop the program with an assert
+	if check_on_ready_if_inputs_registered:
+		var registered_input_actions: Array[StringName] = []
+		for input_action in InputMap.get_actions():
+			if input_action.begins_with(&"play_char_"):
+				registered_input_actions.append(input_action)
+				
+		for input_action in input_actions_list:
+			if input_action == &"":
+				assert(false, "There's an undefined input action")
+				
+			if not registered_input_actions.has(input_action):
+				assert(false, "%s missing in InputMap, or input action wrongly named in the editor" % input_action)
+				
 func _process(delta: float) -> void:
-	slide_timers(delta)
+	wallrun_timer(delta)
+	
+	slide_timer(delta)
 
-	dash_timers(delta)
+	dash_timer(delta)
 	
 func _physics_process(_delta: float) -> void:
 	modify_physics_properties()
 
 	move_and_slide()
 	
-func slide_timers(delta: float) -> void:
+func wallrun_timer(delta : float) -> void:
+	if !can_wallrun:
+		if time_bef_can_wallrun_again > 0.0: time_bef_can_wallrun_again -= delta
+		else:
+			#can only reset capacity of wallrunning when not currently wallrunning
+			if state_machine.curr_state_name != "Wallrun":
+				wallrun_time = wallrun_time_ref
+				can_wallrun = true
+	
+func slide_timer(delta: float) -> void:
 	if time_bef_can_slide_again > 0.0: time_bef_can_slide_again -= delta
 	else:
 		#can only reset slide time when not sliding
 		if state_machine.curr_state_name != "Slide":
 			slide_time = slide_time_ref
 			
-func dash_timers(delta: float) -> void:
+func dash_timer(delta: float) -> void:
 	#reloads dash every *timeBefReloadDash* time, to avoid dash spamming
 	#if you want to be able to spam dashes, set timeBefReloadDash to 0.0
 	if nb_dashs_allowed < nb_dashs_allowed_ref:
@@ -184,10 +245,11 @@ func modify_physics_properties() -> void:
 	was_on_floor = !is_on_floor() #check if play char was on floor every frame
 	
 func gravity_apply(delta: float) -> void:
-	#if play char goes up, apply jump gravity
+	# if play char goes up, apply jump gravity
 	#otherwise, apply fall gravity
-	if velocity.y >= 0.0: velocity.y += jump_gravity * delta
-	elif velocity.y < 0.0: velocity.y += fall_gravity * delta
+	if not is_on_floor(): #no need to push play char if he's already on the floor
+		if velocity.y >= 0.0: velocity.y += jump_gravity * delta
+		elif velocity.y < 0.0: velocity.y += fall_gravity * delta
 	
 #use of 2 tweens to change the hitbox and model heights, relative to a specific state
 func tween_hitbox_height(state_hitbox_height : float) -> void:

@@ -21,13 +21,12 @@ func verifications() -> void:
 	if play_char.nb_jumps_in_air_allowed < play_char.nb_jumps_in_air_allowed_ref: play_char.nb_jumps_in_air_allowed = play_char.nb_jumps_in_air_allowed_ref
 	if play_char.coyote_jump_cooldown < play_char.coyote_jump_cooldown_ref: play_char.coyote_jump_cooldown = play_char.coyote_jump_cooldown_ref
 	if play_char.has_dashed: play_char.has_dashed = false
+	if play_char.last_wallrunned_wall_out_of_time != 0: play_char.last_wallrunned_wall_out_of_time = 0
 	
 	play_char.tween_hitbox_height(play_char.crouch_hitbox_height)
 	play_char.tween_model_height(play_char.crouch_model_height)
 	
 func physics_update(delta : float) -> void:
-	check_if_floor()
-	
 	applies(delta)
 	
 	play_char.gravity_apply(delta)
@@ -36,18 +35,18 @@ func physics_update(delta : float) -> void:
 	
 	move(delta)
 	
-func check_if_floor() -> void:
+func applies(delta : float) -> void:
+	if play_char.hit_ground_cooldown > 0.0: play_char.hit_ground_cooldown -= delta
+	
 	if !play_char.is_on_floor() and !play_char.is_on_wall():
 		if play_char.velocity.y < 0.0:
 			transitioned.emit(self, "InairState")
+			
 	if play_char.is_on_floor():
 		if play_char.jump_buff_on and play_char.jump_cooldown < 0.0:
 			play_char.buffered_jump = true
 			play_char.jump_buff_on = false
 			transitioned.emit(self, "JumpState")
-			
-func applies(delta : float) -> void:
-	if play_char.hit_ground_cooldown > 0.0: play_char.hit_ground_cooldown -= delta
 	
 func input_management() -> void:
 	if Input.is_action_just_pressed(play_char.jump_action):

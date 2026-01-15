@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://oj3blpxqf1bl"]
+[gd_scene load_steps=15 format=3 uid="uid://oj3blpxqf1bl"]
 
 [ext_resource type="PackedScene" uid="uid://bwggrf7sbmkcv" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/player_character_scene.tscn" id="1_hvhfo"]
 [ext_resource type="Material" uid="uid://cmlreoo2qwhp4" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/structure_material.tres" id="2_ivwfa"]
@@ -22,6 +22,27 @@ sky = SubResource("Sky_43bpn")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="Curve3D" id="Curve3D_q4rg5"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 17.3, 0, 0, 16, 0, -14, 0, 0, 0, 0, 0, 0, 32, 0, -28),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_xvs2p"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 17.3, 0, 0, 16, 0, -14, 0, 0, 0, 0, 0, 0, 32, 0, -28),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_xafeq"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 17.3, 0, 0, 16, 0, -14, 0, 0, 0, 0, 0, 0, 32, 0, -28),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
 [node name="TemplateMap" type="Node3D"]
 
 [node name="Environment" type="Node3D" parent="."]
@@ -41,10 +62,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.7646, 1.50542, -19.959)
 [node name="Map" type="Node3D" parent="."]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.148193, 0, -25.898514)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.29639, 0, -25.898514)
 use_collision = true
 collision_mask = 2
-size = Vector3(91.70361, 1, 117.79703)
+size = Vector3(186, 1, 117.79703)
 material = ExtResource("2_ivwfa")
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="Map"]
@@ -195,21 +216,187 @@ radial_segments = 32
 rings = 12
 material = ExtResource("4_ivwfa")
 
-[node name="MovementModifiers" type="Node3D" parent="."]
+[node name="MovementModifiers" type="Node3D" parent="Map"]
 
-[node name="VerticalJumpPad" parent="MovementModifiers" instance=ExtResource("4_7e7um")]
+[node name="VerticalJumpPad" parent="Map/MovementModifiers" instance=ExtResource("4_7e7um")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.378038, 0.69335794, -62.13657)
 
-[node name="DirectionalJumpPad" parent="MovementModifiers" instance=ExtResource("8_q4rg5")]
+[node name="DirectionalJumpPad" parent="Map/MovementModifiers" instance=ExtResource("8_q4rg5")]
 transform = Transform3D(-4.3711385e-08, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, -4.3711385e-08, -15.247266, 1.4057713, -71.279396)
 bounce_force = 0.0
 overrided_direction = Vector3(0, 28, 45)
 
-[node name="SlipperyZone" parent="MovementModifiers" instance=ExtResource("5_lao78")]
+[node name="SlipperyZone" parent="Map/MovementModifiers" instance=ExtResource("5_lao78")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.446507, 1.0000002, -76.42476)
 
-[node name="ConveyorZone" parent="MovementModifiers" instance=ExtResource("7_q4rg5")]
+[node name="ConveyorZone" parent="Map/MovementModifiers" instance=ExtResource("7_q4rg5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.437664, 1.0000002, -66.41208)
 
-[node name="GravityZone" parent="MovementModifiers" instance=ExtResource("5_y6tot")]
+[node name="GravityZone" parent="Map/MovementModifiers" instance=ExtResource("5_y6tot")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.640645, 2.5000005, -64.2022)
+
+[node name="WallrunZone" type="Node3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 6, -28)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Map/WallrunZone"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -16.029999, -1.223, -21.492886)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(28.258972, 9.499871, 1)
+material = ExtResource("4_ivwfa")
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="Map/WallrunZone"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -8.029999, -1.223, -0.3633995)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(34, 9.499871, 1)
+material = ExtResource("4_ivwfa")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Map/WallrunZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.313904, -1.223, -50.09767)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(36.428833, 9.499871, 1)
+material = ExtResource("4_ivwfa")
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="Map/WallrunZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.02832, -1.223, -42.09767)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(31, 9.499871, 1)
+material = ExtResource("4_ivwfa")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Map/WallrunZone"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 50.97, -1.223, -0.635128)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(66.15869, 9.499871, 1)
+material = ExtResource("4_ivwfa")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Map/WallrunZone"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 46.458588, -1.223, 1.2855263)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+size = Vector3(36, 9.499871, 1)
+material = ExtResource("4_ivwfa")
+
+[node name="Path3D" type="Path3D" parent="Map/WallrunZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.468178, -6, -63.6)
+curve = SubResource("Curve3D_q4rg5")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Map/WallrunZone/Path3D"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+polygon = PackedVector2Array(0, 0, 0, 9.525, 1, 9.525, 1, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+material = ExtResource("4_ivwfa")
+
+[node name="Path3D2" type="Path3D" parent="Map/WallrunZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.46817, -6, -17.599998)
+curve = SubResource("Curve3D_xvs2p")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Map/WallrunZone/Path3D2"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 36, 0, 0)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+polygon = PackedVector2Array(0, 0, 0, 9.525, 1, 9.525, 1, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+material = ExtResource("4_ivwfa")
+
+[node name="Path3D3" type="Path3D" parent="Map/WallrunZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.53183, -6, 60.4)
+curve = SubResource("Curve3D_xafeq")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Map/WallrunZone/Path3D3"]
+transform = Transform3D(1, 0, 5.9604645e-08, 0, 1, 0, -5.9604645e-08, 0, 1, 36, 0, 0)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+polygon = PackedVector2Array(0, 0, 0, 9.525, 1, 9.525, 1, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+material = ExtResource("4_ivwfa")
+
+[node name="Path3D4" type="Path3D" parent="Map/WallrunZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -76.53183, -6, 44.4)
+curve = SubResource("Curve3D_xafeq")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Map/WallrunZone/Path3D4"]
+transform = Transform3D(1, 0, 5.9604645e-08, 0, 1, 0, -5.9604645e-08, 0, 1, 36, 0, 0)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+polygon = PackedVector2Array(0, 0, 0, 9.525, 1, 9.525, 1, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+material = ExtResource("4_ivwfa")
+
+[node name="Path3D5" type="Path3D" parent="Map/WallrunZone"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.53183, -6, 14.400002)
+curve = SubResource("Curve3D_xafeq")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Map/WallrunZone/Path3D5"]
+transform = Transform3D(1.5893256e-08, 0, -1, 0, 1, 0, 1, 0, 1.5893256e-08, 36, 0, 0)
+use_collision = true
+collision_layer = 5
+collision_mask = 2
+polygon = PackedVector2Array(0, 0, 0, 9.525, 1, 9.525, 1, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+material = ExtResource("4_ivwfa")
