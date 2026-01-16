@@ -23,6 +23,8 @@ He works perfectly on Godot 4.5 and Godot 4.4, and should also works well on the
 
 The video showcasing all the changes brought about with the last update (a lot, lot of things) : https://www.youtube.com/watch?v=4PkR2Z1oxG8
 
+And here's the video showcasing the changes brought along the final update : https://www.youtube.com/watch?v=MHr0td5G64M
+
 
 # **Features**
 
