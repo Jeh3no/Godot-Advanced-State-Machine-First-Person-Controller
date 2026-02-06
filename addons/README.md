@@ -1,98 +1,155 @@
 An advanced and complete state machine first person controller asset, made in Godot 4.
 
-
 ![Asset logo](https://raw.githubusercontent.com/Jeh3no/Godot-Advanced-State-Machine-First-Person-Controller/refs/heads/main/addons/Arts/logo.png)
 
 
-# **General**
+# General
+
+This asset provides a fully commented, finite state machine based first-person controller with a modular camera system and a debug properties HUD. It is 100% written in GDScript and follows GDScript conventions. My main goal with this project is to provide an easy + complete way to manage and modify a controller for first person games.
+
+A test map is included to demonstrate the controller's capabilities, featuring interactive structures such as slopes, spheres, jump pads (vertical and directional), gravity zones, conveyor zones, and slippery zones.
+
+The controller uses a finite state machine architecture where each state has its own script, making it straightforward to add, remove, or modify behaviors. All movement parameters, camera settings, and keybindings are exposed as export variables in the inspector for easy customization.
 
 
-This asset provides a simple, fully commented, finite state machine based controller, camera, as well as a properties HUD.
+# Compatibility
 
-A test map is provided to test the controller, with interactive structures allowing to test the various functionalities : slopes, spheres, jumppad (both vertical and directional), gravity area, conveyor area, slippery area
-
-The controller use a finite state machine, designed to be easely editable, allowing to easily add, remove and modify behaviours and actions.
-
-Each state has his own script, allowing to easly filter and manage the communication between each state.
-
-He is also very customizable, with a whole set of open variables for every state and for more general stuff. This is the same for the camera.
-
-The asset is 100% written in GDScript, and respect the GDScript convention.
-
-He works perfectly on Godot 4.5 and Godot 4.4, and should also works well on the others 4.x versions (4.3, 4.2, 4.1, 4.0), but you will have to remove the uid files.
-
-The video showcasing all the changes brought about with the last update (a lot, lot of things) : https://www.youtube.com/watch?v=4PkR2Z1oxG8
+- **Godot 4.4 and 4.5**: Fully supported.
+- **Godot 4.0 - 4.3**: Should work, but you will need to delete the `.uid` files.
 
 
-# **Features**
+# Features
+
+**Movement**
+- Finite state machine based controller
+- Smooth acceleration and deceleration
+- Slope and hill traversal
+- Walking
+- Crouching (continuous hold or toggle)
+- Running (continuous hold or toggle)
+- Jumping (configurable multi-jump)
+- Jump buffering
+- Coyote time
+- Air control (customizable via curves)
+- Bunny hopping (with optional auto bunny hop)
+- Dashing (configurable multi-dash with cooldown)
+- Sliding (on flat surfaces and slopes)
+- Flying
+- Wall running
+- Wall jumping
+
+**Camera**
+- Per-state FOV transitions
+- Forward and side tilt
+- Head bob
+- Zoom
+- Configurable mouse sensitivity
+
+**UI**
+- Crosshair/reticle
+- Debug properties HUD
+- Input action checker
 
 
- - Finite state machine based controller
- - Smooth moving
- - Ability to move on slopes and hills
- - Walking
- - Crouching (continious and once pressed input)
- - Running (continious and once pressed input)
- - Jumping (multiple jump system)
- - Jump buffering
- - Coyote jump/time
- - Air control (easely customizable thanks to curves)
- - Bunny hopping (+ auto bunny hop)
- - Dashing (multiple dash system)
- - Sliding (on flat surfaces and on slopes)
- - Flying
- - Wallrunning
- - Walljumping
+# Installation / Quickstart
 
- - Camera FOV management
- - Camera tilt (forward and side tilt)
- - Camera bob
- - Camera zoom
-   
- - Reticle
- - Properties HUD
+## Step 1: Add the asset to your project
 
-   
-# **Purpose**
+Download or clone this repository and copy the `addons/` folder into your Godot project's root directory.
 
+## Step 2: Set up input actions
 
-My main goal with this project is to provide a complete and easy to manage/modify controller for first person games.
+The controller requires **12 input actions** to be defined in your project's Input Map. Go to **Project > Project Settings > Input Map** and create each of the following actions, then bind them to your preferred keys/buttons:
 
-I hope that it will be the case.
+| Input Action Name | Purpose |
+|---|---|
+| `play_char_move_forward` | Move forward |
+| `play_char_move_backward` | Move backward |
+| `play_char_move_left` | Strafe left |
+| `play_char_move_right` | Strafe right |
+| `play_char_run` | Run / sprint |
+| `play_char_crouch` | Crouch |
+| `play_char_jump` | Jump |
+| `play_char_slide` | Slide |
+| `play_char_dash` | Dash |
+| `play_char_fly` | Toggle fly mode |
+| `play_char_zoom` | Camera zoom |
+| `play_char_mouse_mode` | Toggle mouse capture |
+
+## Step 3 (optional): Enable the input action checker
+
+On the `PlayerCharacter` node, enable the **`check_on_ready_if_inputs_registered`** export variable. When enabled, the game will assert on startup if any input action is missing from the Input Map or misspelled, helping catch configuration errors early.
 
 
-# **How to use**
+# State machine overview
+
+The controller uses 10 states, each in its own script:
+
+| State | Description |
+|---|---|
+| **Idle** | No movement input. Handles jump buffering and coyote time transitions. |
+| **Walk** | Standard movement at base walk speed. |
+| **Run** | Faster movement. Supports continuous hold or toggle mode. |
+| **Jump** | Active jump with air control. Detects walls for wall run transitions. |
+| **InAir** | Airborne without jumping (e.g., walked off an edge). Manages coyote time, jump buffering, and double jumps. |
+| **Crouch** | Reduced height and speed. Checks ceiling clearance before standing. |
+| **Slide** | Momentum-based slide with a configurable duration. Works on flat ground and slopes. |
+| **Dash** | Fast directional burst with limited uses and cooldown. |
+| **Fly** | Free movement in all directions. Boost mode available via the run input. |
+| **Wallrun** | Run along vertical walls with reduced gravity. Supports wall jumping. |
 
 
-It's an asset, which means you can add it to an existing project without any issue.
+# Customization
 
-Simply download it, add it to your project, get the files you want to use.
+All movement, camera, and state parameters are exposed as export variables in the inspector. Select the `PlayerCharacter` node to find these groups:
 
-You will see for the player character script (and in the camera script) a keybinding variables group,
+- **Movement variables** - Base speed, acceleration, deceleration
+- **Crouch variables** - Speed, height, continuous vs. toggle
+- **Walk variables** - Speed, acceleration, deceleration
+- **Run variables** - Speed, acceleration, deceleration, continuous vs. toggle
+- **Jump variables** - Height, time-to-peak, time-to-fall, max jumps, cooldown, coyote time, bunny hop settings
+- **Slide variables** - Speed, duration, max slope angle, continuous vs. toggle
+- **Dash variables** - Speed, duration, max uses, cooldown, reload time
+- **Wallrun variables** - Speed, duration, gravity multiplier, infinite wallrun toggle
+- **Walljump variables** - Height, sideways force, forward force
+- **Fly variables** - Speed, acceleration, deceleration, boost multiplier
+- **Gravity variables** - Calculated automatically from jump parameters
 
-you need to create a input action in your project for each action, and then type the exact same name into the corresponding input action variable.
+Select the `CameraHolder` node for camera settings:
 
-### Important : if you want to use the input action checker, you must add "play_char_" before any input action related to the player character (movement, camera, hud), both in the input map, and in the script.
-
-(for example : name your move forward action "move_forward", and then type "move_forward" into the variable "move_forward_action").
-
-
-# **Requets**
-
-
-- For any bug request, please write on down in the "issues" section.
-
-- For any new feature request, please write it down in the "discussions" section.
-
-- For any bug resolution/improvement commit, please write it down in the "pull requests" section.
+- **Sensitivity** - X and Y axis mouse sensitivity
+- **FOV** - Default and per-state field of view
+- **Tilt** - Forward and side camera tilt amounts and speeds
+- **Bob** - Head bob pitch, roll, frequency, and height
+- **Zoom** - Zoom FOV and transition speed
 
 
-# **Credits**
+# Movement modifier zones
 
-Godot Theme Prototype Textures, by PiCode : https://godotengine.org/asset-library/asset/2480
+The test map includes four interactive zone types that can be reused in your own levels:
 
-psychowolf960 (Github account name), for resolving some typo issues, as well as adding the following interactive structures/movement modifiers :
--vertical jump pad
--conveyor area
--slippery area
--gravity area
+| Zone | Description | Key Properties |
+|---|---|---|
+| **Conveyor Zone** | Pushes the player in a direction | `belt_direction`, `belt_speed` |
+| **Jump Pad** | Launches the player upward or in a custom direction | `bounce_force`, `override_velocity`, `overrided_direction` |
+| **Slippery Zone** | Reduces friction and acceleration | `friction_multiplier`, `acceleration_multiplier` |
+| **Gravity Zone** | Modifies jump and fall gravity | `gravity_multiplier` |
+
+
+# Showcase videos
+
+- Changes from the latest update: https://www.youtube.com/watch?v=MHr0td5G64M
+- Previous major update showcase: https://www.youtube.com/watch?v=4PkR2Z1oxG8
+
+
+# Issues and contributions
+
+- **Bug reports**: Open an issue in the [Issues](../../issues) section.
+- **Feature requests**: Post in the [Discussions](../../discussions) section.
+- **Pull requests**: Submit improvements in the [Pull Requests](../../pulls) section.
+
+
+# Credits
+
+- Godot Theme Prototype Textures by PiCode: https://godotengine.org/asset-library/asset/2480
+- psychowolf960 (GitHub) - Typo fixes and the following movement modifier zones: vertical jump pad, conveyor area, slippery area, gravity area
