@@ -153,3 +153,4 @@ The test map includes four interactive zone types that can be reused in your own
 
 - Godot Theme Prototype Textures by PiCode: https://godotengine.org/asset-library/asset/2480
 - psychowolf960 (GitHub) - Typo fixes and the following movement modifier zones: vertical jump pad, conveyor area, slippery area, gravity area
+- 1000nettles (Github) - Readme file overhaul
