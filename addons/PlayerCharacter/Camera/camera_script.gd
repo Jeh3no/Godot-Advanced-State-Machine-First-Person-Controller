@@ -68,7 +68,8 @@ var mouse_free : bool = false
 @export var zoom_action : StringName = ""
 @export var mouse_mode_action : StringName = ""
 @onready var input_actions_list : Array[StringName] = [zoom_action, mouse_mode_action]
-@export var check_on_ready_if_inputs_registered : bool = false
+@export var check_on_ready_if_inputs_registered : bool = true
+var default_input_actions : Dictionary
 
 var state : String
 
@@ -82,9 +83,18 @@ func _ready() -> void:
 	
 	camera.fov = fov
 	
+	build_default_keybinding()
 	input_actions_check()
-	
-func input_actions_check() -> void:	
+
+func build_default_keybinding() -> void:
+	default_input_actions = {
+		zoom_action : [Key.KEY_C, Key.KEY_ALT],
+		mouse_mode_action : [Key.KEY_ESCAPE]
+	}
+
+func input_actions_check() -> void:
+	#check if the input actions written in the editor are the same as the ones registered in the Input map, and if they are written correctly
+	#if not, add it to runtime Input map with default keybindings
 	if check_on_ready_if_inputs_registered:
 		var registered_input_actions: Array[StringName] = []
 		for input_action in InputMap.get_actions():
@@ -96,7 +106,18 @@ func input_actions_check() -> void:
 				assert(false, "There's an undefined input action")
 				
 			if not registered_input_actions.has(input_action):
-				assert(false, "%s missing in InputMap, or input action wrongly named in the editor" % input_action)
+				var key_names = default_input_actions[input_action].map(func(key):
+					return OS.get_keycode_string(key)
+				)
+				
+				push_warning("'{input}' missing in InputMap, or input action wrongly named in the editor.\nAdding the '{input}' to runtime InputMap temporarily with the key/s: {keys}"
+				.format({"input": input_action, "keys": String(", ").join(key_names)}))
+				
+				InputMap.add_action(input_action)
+				for keycode in default_input_actions[input_action]:
+					var input_event_key = InputEventKey.new()
+					input_event_key.physical_keycode = keycode
+					InputMap.action_add_event(input_action, input_event_key)
 				
 func _unhandled_input(event) -> void:
 	#manage camera rotation (360 on x axis, blocked at specified values on y axis, to not having the character do a complete head turn, which will be kinda weird)

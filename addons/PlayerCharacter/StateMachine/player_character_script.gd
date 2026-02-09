@@ -142,7 +142,8 @@ var fly_boost_on: bool = false
 @export var fly_action: StringName = ""
 @onready var input_actions_list : Array[StringName] = [move_forward_action, move_backward_action, move_left_action, move_right_action, 
 run_action, crouch_action, jump_action, slide_action, dash_action, fly_action]
-@export var check_on_ready_if_inputs_registered : bool = false
+@export var check_on_ready_if_inputs_registered : bool = true
+var default_input_actions : Dictionary
 
 #references variables
 @onready var cam_holder: Node3D = $CameraHolder
@@ -178,11 +179,27 @@ func _ready() -> void:
 	walljump_lock_in_air_movement_time_ref = walljump_lock_in_air_movement_time
 	walljump_lock_in_air_movement_time = -1.0
 	
+	# Build it in runtime to ensure that export variables have been set
+	build_default_keybinding()
 	input_actions_check()
+	
+func build_default_keybinding() -> void:
+	default_input_actions = {
+		move_forward_action : [Key.KEY_W, Key.KEY_UP],
+		move_backward_action : [Key.KEY_S, Key.KEY_DOWN],
+		move_left_action : [Key.KEY_A, Key.KEY_LEFT],
+		move_right_action : [Key.KEY_D, Key.KEY_RIGHT],
+		run_action : [Key.KEY_SHIFT],
+		crouch_action : [Key.KEY_C],
+		jump_action : [Key.KEY_SPACE],
+		slide_action : [Key.KEY_CTRL],
+		dash_action : [Key.KEY_E],
+		fly_action : [Key.KEY_Q]
+	}
 	
 func input_actions_check() -> void:
 	#check if the input actions written in the editor are the same as the ones registered in the Input map, and if they are written correctly
-	#if not, stop the program with an assert
+	#if not, add it to runtime Input map with default keybindings
 	if check_on_ready_if_inputs_registered:
 		var registered_input_actions: Array[StringName] = []
 		for input_action in InputMap.get_actions():
@@ -194,7 +211,18 @@ func input_actions_check() -> void:
 				assert(false, "There's an undefined input action")
 				
 			if not registered_input_actions.has(input_action):
-				assert(false, "%s missing in InputMap, or input action wrongly named in the editor" % input_action)
+				var key_names = default_input_actions[input_action].map(func(key):
+					return OS.get_keycode_string(key)
+				)
+				
+				push_warning("'{input}' missing in InputMap, or input action wrongly named in the editor.\nAdding the '{input}' to runtime InputMap temporarily with the key/s: {keys}"
+				.format({"input": input_action, "keys": String(", ").join(key_names)}))
+				
+				InputMap.add_action(input_action)
+				for keycode in default_input_actions[input_action]:
+					var input_event_key = InputEventKey.new()
+					input_event_key.physical_keycode = keycode
+					InputMap.action_add_event(input_action, input_event_key)
 				
 func _process(delta: float) -> void:
 	wallrun_timer(delta)
