@@ -57,28 +57,24 @@ The controller uses a finite state machine architecture where each state has its
 
 Download or clone this repository and copy the `addons/` folder into your Godot project's root directory.
 
-## Step 2: Set up input actions
+## Step 2(optional): Set up input actions
 
-The controller requires **12 input actions** to be defined in your project's Input Map. Go to **Project > Project Settings > Input Map** and create each of the following actions, then bind them to your preferred keys/buttons:
+The controller requires **12 input actions** to be defined in your project's Input Map. If they are not binded, the default keybindings will be used. Go to **Project > Project Settings > Input Map** and create each of the following actions, then bind them to your preferred keys/buttons:
 
-| Input Action Name | Purpose |
-|---|---|
-| `play_char_move_forward` | Move forward |
-| `play_char_move_backward` | Move backward |
-| `play_char_move_left` | Strafe left |
-| `play_char_move_right` | Strafe right |
-| `play_char_run` | Run / sprint |
-| `play_char_crouch` | Crouch |
-| `play_char_jump` | Jump |
-| `play_char_slide` | Slide |
-| `play_char_dash` | Dash |
-| `play_char_fly` | Toggle fly mode |
-| `play_char_zoom` | Camera zoom |
-| `play_char_mouse_mode` | Toggle mouse capture |
-
-## Step 3 (optional): Enable the input action checker
-
-On the `PlayerCharacter` node, enable the **`check_on_ready_if_inputs_registered`** export variable. When enabled, the game will assert on startup if any input action is missing from the Input Map or misspelled, helping catch configuration errors early.
+| Input Action Name | Purpose | Default key |
+|---|---|---|
+| `play_char_move_forward` | Move forward | W, Up |
+| `play_char_move_backward` | Move backward | S, Down |
+| `play_char_move_left` | Strafe left | A, Left |
+| `play_char_move_right` | Strafe right | D, Right |
+| `play_char_run` | Run / sprint | Shift |
+| `play_char_crouch` | Crouch | C |
+| `play_char_jump` | Jump | Space |
+| `play_char_slide` | Slide | Ctrl |
+| `play_char_dash` | Dash | E |
+| `play_char_fly` | Toggle fly mode | Q |
+| `play_char_zoom` | Camera zoom | Alt, C |
+| `play_char_mouse_mode` | Toggle mouse capture | Esc |
 
 
 # State machine overview
