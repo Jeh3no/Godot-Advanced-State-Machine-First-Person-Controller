@@ -82,8 +82,15 @@ func move(delta : float) -> void:
 	play_char.desired_move_speed = clamp(play_char.desired_move_speed, 0.0, play_char.max_desired_move_speed)
 	
 	if play_char.move_direction and play_char.is_on_floor():
-		play_char.velocity.x = lerp(play_char.velocity.x, play_char.move_direction.x * play_char.move_speed, play_char.move_deccel * delta)
-		play_char.velocity.z = lerp(play_char.velocity.z, play_char.move_direction.z * play_char.move_speed, play_char.move_deccel * delta)
+		play_char.velocity.x = lerp(
+			play_char.velocity.x, 
+			play_char.move_direction.x * play_char.move_speed * (play_char.backward_crouch_speed_multiplier if play_char.input_direction.y > 0.0 else 1.0), 
+			play_char.move_accel * delta)
+			
+		play_char.velocity.z = lerp(
+			play_char.velocity.z, 
+			play_char.move_direction.z * play_char.move_speed * (play_char.backward_crouch_speed_multiplier if play_char.input_direction.y > 0.0 else 1.0), 
+			play_char.move_accel * delta)
 	else:
 		play_char.velocity.x = lerp(play_char.velocity.x, 0.0, play_char.move_deccel * delta)
 		play_char.velocity.z = lerp(play_char.velocity.z, 0.0, play_char.move_deccel * delta)

@@ -80,8 +80,16 @@ func move(delta : float) -> void:
 	
 	if play_char.move_direction and play_char.is_on_floor():
 		#apply smooth move
-		play_char.velocity.x = lerp(play_char.velocity.x, play_char.move_direction.x * play_char.move_speed, play_char.move_accel * delta)
-		play_char.velocity.z = lerp(play_char.velocity.z, play_char.move_direction.z * play_char.move_speed, play_char.move_accel * delta)
+		play_char.velocity.x = lerp(
+			play_char.velocity.x,
+																										#play_char.input_direction.y > 0.0 means that play char has pressed move backward key
+			play_char.move_direction.x * play_char.move_speed * (play_char.backward_walk_speed_multiplier if play_char.input_direction.y > 0.0 else 1.0), 
+			play_char.move_accel * delta)
+			
+		play_char.velocity.z = lerp(
+			play_char.velocity.z, 
+			play_char.move_direction.z * play_char.move_speed * (play_char.backward_walk_speed_multiplier if play_char.input_direction.y > 0.0 else 1.0), 
+			play_char.move_accel * delta)
 		
 		if play_char.hit_ground_cooldown <= 0: play_char.desired_move_speed = play_char.velocity.length()
 		
