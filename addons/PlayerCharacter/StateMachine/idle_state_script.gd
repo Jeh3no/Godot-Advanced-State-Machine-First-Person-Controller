@@ -13,10 +13,16 @@ func enter(play_char_ref : CharacterBody3D):
 	verifications()
 	
 func verifications():
+	#Fix for sliding after slide, jump, releasing in air.
+	#if play_char.input_direction == Vector2.ZERO:
+		#play_char.velocity.x = 0
+		#play_char.velocity.z = 0
 	#manage the appliements that need to be set at the start of the state
 	play_char.floor_snap_length = 1.0
-	if play_char.nb_jumps_in_air_allowed < play_char.nb_jumps_in_air_allowed_ref: play_char.nb_jumps_in_air_allowed = play_char.nb_jumps_in_air_allowed_ref
-	if play_char.coyote_jump_cooldown < play_char.coyote_jump_cooldown_ref: play_char.coyote_jump_cooldown = play_char.coyote_jump_cooldown_ref
+	if play_char.nb_jumps_in_air_allowed < play_char.nb_jumps_in_air_allowed_ref: 
+		play_char.nb_jumps_in_air_allowed = play_char.nb_jumps_in_air_allowed_ref
+	if play_char.coyote_jump_cooldown < play_char.coyote_jump_cooldown_ref: 
+		play_char.coyote_jump_cooldown = play_char.coyote_jump_cooldown_ref
 	if play_char.has_dashed: play_char.has_dashed = false
 	if play_char.last_wallrunned_wall_out_of_time != 0: play_char.last_wallrunned_wall_out_of_time = 0
 	
@@ -37,15 +43,16 @@ func applies(delta : float):
 	if play_char.hit_ground_cooldown > 0.0: play_char.hit_ground_cooldown -= delta
 	
 	#i don't know why, but if i put this line in verifications, it broke the jump cooldown, because he constantly stay at -1.0
-	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
-	
+#	This broke because you allow jump if play_char.jump_cooldown is <0, it won't pick up 0. Set <= 0 so it jumps at 0 in the input_management. However, you now need to lower the jump cooldown at all times.
+	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
+	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
 	#manage the appliements and state transitions that needs to be sets/checked/performed
 	#every time the play char pass through one of the following : floor-inair-onwall
 	if !play_char.is_on_floor() and !play_char.is_on_wall():
 		transitioned.emit(self, "InairState")
 		
 	if play_char.is_on_floor():
-		if play_char.jump_buff_on and play_char.jump_cooldown < 0.0: 
+		if play_char.jump_buff_on and play_char.jump_cooldown <= 0.0: 
 			play_char.buffered_jump = true
 			play_char.jump_buff_on = false
 			transitioned.emit(self, "JumpState")
@@ -53,7 +60,7 @@ func applies(delta : float):
 func input_management():
 	#manage the state transitions depending on the actions inputs
 	if Input.is_action_just_pressed(play_char.jump_action):
-		if play_char.jump_cooldown < 0.0:
+		if play_char.jump_cooldown <= 0.0:
 			transitioned.emit(self, "JumpState")
 		
 	if Input.is_action_just_pressed(play_char.crouch_action):
@@ -73,7 +80,7 @@ func move(delta : float):
 	play_char.input_direction = Input.get_vector(play_char.move_left_action, play_char.move_right_action, play_char.move_forward_action, play_char.move_backward_action)
 	#get the move direction depending on the input
 	play_char.move_direction = (play_char.cam_holder.global_basis * Vector3(play_char.input_direction.x, 0.0, play_char.input_direction.y)).normalized()
-	
+
 	#set to ensure the character don't exceed the max speed authorized
 	play_char.desired_move_speed = clamp(play_char.desired_move_speed, 0.0, play_char.max_desired_move_speed)
 	
@@ -82,8 +89,8 @@ func move(delta : float):
 		transitioned.emit(self, play_char.walk_or_run)
 	else:
 		#apply smooth stop 
-		play_char.velocity.x = lerp(play_char.velocity.x, 0.0, play_char.move_deccel * delta)
-		play_char.velocity.z = lerp(play_char.velocity.z, 0.0, play_char.move_deccel * delta)
+		play_char.velocity.x = lerp(play_char.velocity.x, 0.0, play_char.idle_deccel * delta)
+		play_char.velocity.z = lerp(play_char.velocity.z, 0.0, play_char.idle_deccel * delta)
 		
 		#cancel desired move speed accumulation if the timer has elapsed (is up)
 		if play_char.hit_ground_cooldown <= 0: play_char.desired_move_speed = play_char.velocity.length()

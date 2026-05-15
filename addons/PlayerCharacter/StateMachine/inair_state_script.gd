@@ -31,7 +31,7 @@ func physics_update(delta : float) -> void:
 	
 func applies(delta : float) -> void:
 	if !play_char.is_on_floor(): 
-		if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
+		#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
 		if play_char.coyote_jump_cooldown > 0.0: play_char.coyote_jump_cooldown -= delta
 		if play_char.walljump_lock_in_air_movement_time > 0.0: play_char.walljump_lock_in_air_movement_time -= delta
 		
@@ -52,10 +52,10 @@ func input_management() -> void:
 		#check if can jump buffer
 		if play_char.floor_check.is_colliding() and play_char.last_frame_position.y > play_char.position.y and play_char.nb_jumps_in_air_allowed <= 0: play_char.jump_buff_on = true
 		#check if can coyote jump
-		if play_char.was_on_floor and play_char.coyote_jump_cooldown > 0.0 and play_char.last_frame_position.y > play_char.position.y and play_char.jump_cooldown < 0.0:
+		if play_char.was_on_floor and play_char.coyote_jump_cooldown > 0.0 and play_char.last_frame_position.y > play_char.position.y and play_char.jump_cooldown <= 0.0:
 			play_char.coyote_jump_on = true
 			transitioned.emit(self, "JumpState")
-		if play_char.jump_cooldown < 0.0:
+		if play_char.jump_cooldown <= 0.0:
 			transitioned.emit(self, "JumpState")
 		
 	if Input.is_action_just_pressed(play_char.dash_action):

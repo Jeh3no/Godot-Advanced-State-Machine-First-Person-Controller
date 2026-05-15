@@ -25,6 +25,9 @@ var walk_or_run: String = "WalkState" #keep in memory if play char was walking o
 @export var base_model_height: float = 1.0
 @export var height_change_duration: float = 0.15
 
+@export_group("Idle variables")
+@export var idle_deccel: float = 10.0
+
 @export_group("Crouch variables")
 @export var crouch_speed: float = 6.0
 @export var crouch_accel: float = 12.0
@@ -58,6 +61,7 @@ var buffered_jump: bool = false
 @export var coyote_jump_cooldown: float = 0.3
 var coyote_jump_cooldown_ref: float
 var coyote_jump_on: bool = false
+var released_input_in_air: bool = false
 
 @export_group("Slide variables")
 var slide_direction: Vector3 = Vector3.ZERO
@@ -163,7 +167,6 @@ func _ready() -> void:
 	#set and value references
 	hit_ground_cooldown_ref = hit_ground_cooldown
 	jump_cooldown_ref = jump_cooldown
-	jump_cooldown = -1.0
 	nb_jumps_in_air_allowed_ref = nb_jumps_in_air_allowed
 	coyote_jump_cooldown_ref = coyote_jump_cooldown
 	slide_time_ref = slide_time
@@ -223,19 +226,25 @@ func input_actions_check() -> void:
 					var input_event_key = InputEventKey.new()
 					input_event_key.physical_keycode = keycode
 					InputMap.action_add_event(input_action, input_event_key)
-				
+
 func _process(delta: float) -> void:
 	wallrun_timer(delta)
-	
+
 	slide_timer(delta)
 
 	dash_timer(delta)
-	
+
+	jump_timer(delta)
+
 func _physics_process(_delta: float) -> void:
 	modify_physics_properties()
 
 	move_and_slide()
-	
+
+func jump_timer(delta : float) -> void:
+	if jump_cooldown > 0.0:
+		jump_cooldown -= delta
+
 func wallrun_timer(delta : float) -> void:
 	if !can_wallrun:
 		if time_bef_can_wallrun_again > 0.0: time_bef_can_wallrun_again -= delta
@@ -263,7 +272,7 @@ func dash_timer(delta: float) -> void:
 
 	if time_bef_can_dash_again > 0.0: time_bef_can_dash_again -= delta
 	else:
-		#can only reset slide time when not dashing
+		#can only reset dash time when not dashing
 		if state_machine.curr_state_name != "Dash":
 			dash_time = dash_time_ref
 			

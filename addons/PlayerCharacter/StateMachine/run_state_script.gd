@@ -17,7 +17,7 @@ func verifications() -> void:
 	play_char.move_deccel = play_char.run_deccel
 	
 	if play_char.floor_snap_length != 1.0: play_char.floor_snap_length = 1.0
-	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
+	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
 	if play_char.nb_jumps_in_air_allowed < play_char.nb_jumps_in_air_allowed_ref: play_char.nb_jumps_in_air_allowed = play_char.nb_jumps_in_air_allowed_ref
 	if play_char.coyote_jump_cooldown < play_char.coyote_jump_cooldown_ref: play_char.coyote_jump_cooldown = play_char.coyote_jump_cooldown_ref
 	if play_char.has_dashed: play_char.has_dashed = false
@@ -36,6 +36,9 @@ func physics_update(delta : float) -> void:
 	move(delta)
 	
 func applies(delta : float) -> void:
+	#Fix to make jump_cooldown run in this state.
+	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
+
 	if play_char.hit_ground_cooldown > 0.0: play_char.hit_ground_cooldown -= delta
 	
 	if !play_char.is_on_floor():
@@ -43,16 +46,16 @@ func applies(delta : float) -> void:
 			transitioned.emit(self, "InairState")
 			
 	if play_char.is_on_floor():
-		if play_char.auto_bunny_hop and play_char.hit_ground_cooldown > 0.0 and play_char.input_direction != Vector2.ZERO and play_char.jump_cooldown < 0.0:
+		if play_char.auto_bunny_hop and play_char.hit_ground_cooldown > 0.0 and play_char.input_direction != Vector2.ZERO and play_char.jump_cooldown <= 0.0:
 			transitioned.emit(self, "JumpState")
-		if play_char.jump_buff_on and play_char.jump_cooldown < 0.0:
+		if play_char.jump_buff_on and play_char.jump_cooldown <= 0.0:
 			play_char.buffered_jump = true
 			play_char.jump_buff_on = false
 			transitioned.emit(self, "JumpState")
 	
 func input_management() -> void:
 	if Input.is_action_just_pressed(play_char.jump_action):
-		if play_char.jump_cooldown < 0.0:
+		if play_char.jump_cooldown <= 0.0:
 			transitioned.emit(self, "JumpState")
 		
 	if Input.is_action_just_pressed(play_char.crouch_action) and !play_char.priority_over_crouch:

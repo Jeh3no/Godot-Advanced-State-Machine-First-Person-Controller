@@ -18,8 +18,10 @@ func enter(play_char_ref : CharacterBody3D) -> void:
 	
 func verifications() -> void:
 	if play_char.floor_snap_length != 0.0:  play_char.floor_snap_length = 0.0
-	if play_char.jump_cooldown < play_char.jump_cooldown_ref: play_char.jump_cooldown = play_char.jump_cooldown_ref
-	if play_char.hit_ground_cooldown != play_char.hit_ground_cooldown_ref: play_char.hit_ground_cooldown = play_char.hit_ground_cooldown_ref
+	if play_char.jump_cooldown < play_char.jump_cooldown_ref:
+		play_char.jump_cooldown = play_char.jump_cooldown_ref
+	if play_char.hit_ground_cooldown != play_char.hit_ground_cooldown_ref:
+		play_char.hit_ground_cooldown = play_char.hit_ground_cooldown_ref
 	
 	play_char.tween_hitbox_height(play_char.base_hitbox_height)
 	play_char.tween_model_height(play_char.base_model_height)
@@ -37,7 +39,6 @@ func physics_update(delta : float) -> void:
 	
 func applies(delta : float) -> void:
 	if !play_char.is_on_floor(): 
-		if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
 		if play_char.coyote_jump_cooldown > 0.0: play_char.coyote_jump_cooldown -= delta
 		if play_char.walljump_lock_in_air_movement_time > 0.0: play_char.walljump_lock_in_air_movement_time -= delta
 		if play_char.velocity.y < 0.0: transitioned.emit(self, "InairState")
@@ -48,7 +49,7 @@ func applies(delta : float) -> void:
 		
 func input_management() -> void:
 	if Input.is_action_just_pressed(play_char.jump_action):
-		if play_char.jump_cooldown < 0.0:
+		if play_char.jump_cooldown <= 0.0:
 			jump()
 		
 	if Input.is_action_just_pressed(play_char.dash_action):
@@ -82,7 +83,8 @@ func move(delta : float) -> void:
 	
 	if !play_char.is_on_floor():
 		if play_char.move_direction:
-			if play_char.desired_move_speed < play_char.max_desired_move_speed: play_char.desired_move_speed += play_char.bunny_hop_dms_incre * delta
+			if play_char.desired_move_speed < play_char.max_desired_move_speed:
+				play_char.desired_move_speed += play_char.bunny_hop_dms_incre * delta
 			
 			#use of curves here to have a better in air movement
 			var contrd_des_move_speed : float = play_char.desired_move_speed_curve.sample(play_char.desired_move_speed)
