@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bs0stms0b56kp"]
+
+[ext_resource type="FontFile" uid="uid://bwr73i28ligrq" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/Ticketing.ttf" id="1_hiso0"]
+
+[resource]
+line_spacing = 5.0
+font = ExtResource("1_hiso0")
+font_size = 12
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)

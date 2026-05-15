@@ -31,7 +31,7 @@ func physics_update(delta : float) -> void:
 	
 func applies(delta : float) -> void:
 	if !play_char.is_on_floor(): 
-		#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
+		if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
 		if play_char.coyote_jump_cooldown > 0.0: play_char.coyote_jump_cooldown -= delta
 		if play_char.walljump_lock_in_air_movement_time > 0.0: play_char.walljump_lock_in_air_movement_time -= delta
 		

@@ -17,7 +17,7 @@ func verifications() -> void:
 	play_char.move_deccel = play_char.walk_deccel
 	 
 	play_char.floor_snap_length = 1.0
-	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
+	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
 	if play_char.nb_jumps_in_air_allowed < play_char.nb_jumps_in_air_allowed_ref: play_char.nb_jumps_in_air_allowed = play_char.nb_jumps_in_air_allowed_ref
 	if play_char.coyote_jump_cooldown < play_char.coyote_jump_cooldown_ref: play_char.coyote_jump_cooldown = play_char.coyote_jump_cooldown_ref
 	if play_char.has_dashed: play_char.has_dashed = false
@@ -37,7 +37,8 @@ func physics_update(delta : float) -> void:
 	
 func applies(delta : float) -> void:
 	if play_char.hit_ground_cooldown > 0.0: play_char.hit_ground_cooldown -= delta
-	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
+	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
+	
 	if !play_char.is_on_floor() and !play_char.is_on_wall():
 		if play_char.velocity.y < 0.0:
 			transitioned.emit(self, "InairState")

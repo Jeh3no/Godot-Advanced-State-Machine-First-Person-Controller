@@ -27,6 +27,10 @@ class_name HUD
 @onready var camera_bob_vertical_offset_label_text: Label = %CameraBobVerticalOffsetLabelText
 @onready var speed_lines_container: ColorRect = %SpeedLinesContainer
 
+func _ready() -> void:
+	if play_char == null:
+		assert(false, "Player character reference for the hud is mandatory")
+
 func _process(_delta : float) -> void:
 	display_current_FPS()
 	

@@ -17,7 +17,7 @@ func verifications() -> void:
 	play_char.move_deccel = play_char.run_deccel
 	
 	if play_char.floor_snap_length != 1.0: play_char.floor_snap_length = 1.0
-	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
+	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
 	if play_char.nb_jumps_in_air_allowed < play_char.nb_jumps_in_air_allowed_ref: play_char.nb_jumps_in_air_allowed = play_char.nb_jumps_in_air_allowed_ref
 	if play_char.coyote_jump_cooldown < play_char.coyote_jump_cooldown_ref: play_char.coyote_jump_cooldown = play_char.coyote_jump_cooldown_ref
 	if play_char.has_dashed: play_char.has_dashed = false
@@ -36,8 +36,7 @@ func physics_update(delta : float) -> void:
 	move(delta)
 	
 func applies(delta : float) -> void:
-	#Fix to make jump_cooldown run in this state.
-	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
+	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
 
 	if play_char.hit_ground_cooldown > 0.0: play_char.hit_ground_cooldown -= delta
 	

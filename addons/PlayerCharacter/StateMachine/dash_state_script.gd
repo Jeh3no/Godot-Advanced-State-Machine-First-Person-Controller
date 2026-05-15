@@ -27,8 +27,7 @@ func physics_update(delta : float):
 	move()
 	
 func applies(delta : float):
-	#Fix to make jump_cooldown run in this state.
-	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
+	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
 
 	if play_char.dash_time > 0.0: 
 		play_char.dash_time -= delta

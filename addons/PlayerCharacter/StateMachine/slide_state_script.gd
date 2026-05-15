@@ -21,7 +21,7 @@ func verifications() -> void:
 	play_char.slide_direction = play_char.move_direction.normalized() #get move direction before actually start sliding, and stick to that direction
 	
 	if play_char.floor_snap_length != 1.0: play_char.floor_snap_length = 1.0
-	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
+	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
 	if play_char.nb_jumps_in_air_allowed < play_char.nb_jumps_in_air_allowed_ref: 
 		play_char.nb_jumps_in_air_allowed = play_char.nb_jumps_in_air_allowed_ref
 	if play_char.coyote_jump_cooldown < play_char.coyote_jump_cooldown_ref: 
@@ -50,8 +50,7 @@ func applies(delta : float) -> void:
 			transitioned.emit(self, play_char.walk_or_run)
 		else:
 			transitioned.emit(self, "CrouchState")
-		
-	#if play_char.hitGroundCooldown > 0.0: play_char.hitGroundCooldown -= delta
+			
 	slope_angle = rad_to_deg(acos(play_char.get_floor_normal().dot(Vector3.UP)))
 	
 	#if current slope angle superior than max slope angle, play char slides indefinitely while he's on the slope

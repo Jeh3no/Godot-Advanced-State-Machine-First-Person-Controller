@@ -193,9 +193,9 @@ func build_default_keybinding() -> void:
 		move_left_action : [Key.KEY_A, Key.KEY_LEFT],
 		move_right_action : [Key.KEY_D, Key.KEY_RIGHT],
 		run_action : [Key.KEY_SHIFT],
-		crouch_action : [Key.KEY_C],
+		crouch_action : [Key.KEY_X],
 		jump_action : [Key.KEY_SPACE],
-		slide_action : [Key.KEY_C],
+		slide_action : [Key.KEY_X],
 		dash_action : [Key.KEY_CTRL],
 		fly_action : [Key.KEY_F]
 	}

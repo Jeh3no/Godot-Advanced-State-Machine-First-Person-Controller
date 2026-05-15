@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://hc1xroood24q" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/slide_state_script.gd" id="10_poibi"]
 [ext_resource type="Script" uid="uid://c4skioddhqatw" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/dash_state_script.gd" id="11_khex2"]
 [ext_resource type="Script" uid="uid://bq1stj2mujnp2" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/StateMachine/wallrun_state_script.gd" id="12_5fuve"]
-[ext_resource type="LabelSettings" uid="uid://bs0stms0b56kp" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/label_settings.tres" id="14_gfbru"]
+[ext_resource type="LabelSettings" uid="uid://bs0stms0b56kp" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/UI/label_settings.tres" id="14_gfbru"]
 [ext_resource type="Shader" uid="uid://b34228uop3gdf" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/Shaders/speed_lines_shader.gdshader" id="14_jv0i6"]
 [ext_resource type="Script" uid="uid://dx02l6p6behb8" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/PlayerCharacter/UI/hud_script.gd" id="16_5jm78"]
 [ext_resource type="Texture2D" uid="uid://dv747ov6fcrsg" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/Arts/crosshair.png" id="16_gfbru"]

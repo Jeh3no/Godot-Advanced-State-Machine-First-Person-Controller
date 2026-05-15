@@ -13,12 +13,9 @@ func enter(play_char_ref : CharacterBody3D):
 	verifications()
 	
 func verifications():
-	#Fix for sliding after slide, jump, releasing in air.
-	#if play_char.input_direction == Vector2.ZERO:
-		#play_char.velocity.x = 0
-		#play_char.velocity.z = 0
 	#manage the appliements that need to be set at the start of the state
 	play_char.floor_snap_length = 1.0
+	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
 	if play_char.nb_jumps_in_air_allowed < play_char.nb_jumps_in_air_allowed_ref: 
 		play_char.nb_jumps_in_air_allowed = play_char.nb_jumps_in_air_allowed_ref
 	if play_char.coyote_jump_cooldown < play_char.coyote_jump_cooldown_ref: 
@@ -41,11 +38,8 @@ func physics_update(delta : float):
 func applies(delta : float):
 	#manage the appliements of things that needs to be set/checked/performed every frame
 	if play_char.hit_ground_cooldown > 0.0: play_char.hit_ground_cooldown -= delta
+	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
 	
-	#i don't know why, but if i put this line in verifications, it broke the jump cooldown, because he constantly stay at -1.0
-#	This broke because you allow jump if play_char.jump_cooldown is <0, it won't pick up 0. Set <= 0 so it jumps at 0 in the input_management. However, you now need to lower the jump cooldown at all times.
-	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
-	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
 	#manage the appliements and state transitions that needs to be sets/checked/performed
 	#every time the play char pass through one of the following : floor-inair-onwall
 	if !play_char.is_on_floor() and !play_char.is_on_wall():

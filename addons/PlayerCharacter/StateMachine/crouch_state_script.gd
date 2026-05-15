@@ -17,7 +17,7 @@ func verifications() -> void:
 	play_char.move_deccel = play_char.crouch_deccel
 	
 	play_char.floor_snap_length = 1.0
-	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
+	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown = -1.0
 	if play_char.nb_jumps_in_air_allowed < play_char.nb_jumps_in_air_allowed_ref:
 		play_char.nb_jumps_in_air_allowed = play_char.nb_jumps_in_air_allowed_ref
 	if play_char.coyote_jump_cooldown < play_char.coyote_jump_cooldown_ref:
@@ -41,9 +41,7 @@ func physics_update(delta : float) -> void:
 	
 func applies(delta : float) -> void:
 	if play_char.hit_ground_cooldown > 0.0: play_char.hit_ground_cooldown -= delta
-
-	#Fix to make jump_cooldown run in this state.
-	#if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
+	if play_char.jump_cooldown > 0.0: play_char.jump_cooldown -= delta
 
 	if !play_char.is_on_floor() and !play_char.is_on_wall():
 		if play_char.velocity.y < 0.0:
@@ -57,7 +55,7 @@ func applies(delta : float) -> void:
 	
 func input_management() -> void:
 	if Input.is_action_just_pressed(play_char.jump_action):
-		if play_char.jump_cooldown <= 0.0 and !raycast_verification(): #if nothing block the player character when it will leaves the play_charouch state
+		if play_char.jump_cooldown <= 0.0 and !raycast_verification(): #if nothing block the player character when it will leaves the crouch state
 			transitioned.emit(self, "JumpState")
 			
 	if play_char.continious_crouch: 
