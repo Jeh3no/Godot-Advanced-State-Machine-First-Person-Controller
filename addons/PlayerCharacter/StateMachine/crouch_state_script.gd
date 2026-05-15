@@ -13,7 +13,7 @@ func enter(play_char_ref : CharacterBody3D) -> void:
 	
 func verifications() -> void:
 	play_char.move_speed = play_char.crouch_speed
-	play_char.move_deccel = play_char.crouch_accel
+	play_char.move_accel = play_char.crouch_accel
 	play_char.move_deccel = play_char.crouch_deccel
 	
 	play_char.floor_snap_length = 1.0
