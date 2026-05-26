@@ -1,6 +1,6 @@
 An advanced and complete state machine first person controller asset, made in Godot 4.
 
-![Asset logo](https://raw.githubusercontent.com/Jeh3no/Godot-Advanced-State-Machine-First-Person-Controller/refs/heads/main/addons/Arts/logo.png)
+![Asset logo](https://raw.githubusercontent.com/Jeh3no/Godot-Advanced-State-Machine-First-Person-Controller/refs/heads/main/addons/JehenoAdvancedFirstPersonController/Arts/logo.png)
 
 
 # General
