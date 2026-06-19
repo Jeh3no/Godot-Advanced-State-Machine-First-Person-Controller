@@ -1,6 +1,6 @@
 An advanced and complete state machine first person controller asset, made in Godot 4.
 
-![Asset logo](https://raw.githubusercontent.com/Jeh3no/Godot-Advanced-State-Machine-First-Person-Controller/refs/heads/main/addons/JehenoAdvancedFirstPersonController/Arts/logo.png)
+![Asset logo](https://raw.githubusercontent.com/Jeh3no/Godot-Advanced-State-Machine-First-Person-Controller/refs/heads/main/addons/JehenoAdvancedFirstPersonController/Arts/StoreImages/logo.png)
 
 
 # General
@@ -14,7 +14,7 @@ The controller uses a finite state machine architecture where each state has its
 
 # Compatibility
 
-- **Godot 4.4 and 4.5**: Fully supported.
+- **Godot 4.4 - 4.7**: Fully supported.
 - **Godot 4.0 - 4.3**: Should work, but you will need to delete the `.uid` files.
 
 
