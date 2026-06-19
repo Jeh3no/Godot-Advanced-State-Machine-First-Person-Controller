@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dv747ov6fcrsg"
-path="res://.godot/imported/crosshair.png-27792d98b1c4fa10088d4c77191888ca.ctex"
+uid="uid://c2nkx156wo6gq"
+path="res://.godot/imported/icon.png-2b13006b1b105a7989c4ce8388a68067.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Arts/crosshair.png"
-dest_files=["res://.godot/imported/crosshair.png-27792d98b1c4fa10088d4c77191888ca.ctex"]
+source_file="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Arts/StoreImages/icon.png"
+dest_files=["res://.godot/imported/icon.png-2b13006b1b105a7989c4ce8388a68067.ctex"]
 
 [params]
 

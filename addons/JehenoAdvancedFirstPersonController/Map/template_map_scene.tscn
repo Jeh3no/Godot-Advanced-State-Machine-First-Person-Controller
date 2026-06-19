@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://oj3blpxqf1bl"]
 
 [ext_resource type="PackedScene" uid="uid://bwggrf7sbmkcv" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/PlayerCharacter/player_character_scene.tscn" id="1_hvhfo"]
-[ext_resource type="Material" uid="uid://cmlreoo2qwhp4" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Arts/structure_material.tres" id="2_ivwfa"]
+[ext_resource type="Material" uid="uid://cmlreoo2qwhp4" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Map/Materials/floor_structure_material.tres" id="2_ivwfa"]
 [ext_resource type="PackedScene" uid="uid://b84t3rpy4cau8" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Map/MovementModifiers/jumpPads/verticalJumpPad/vertical_jump_pad_scene.tscn" id="4_7e7um"]
-[ext_resource type="Material" uid="uid://3ub3li5nvjsw" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Arts/structure_material_2.tres" id="4_ivwfa"]
+[ext_resource type="Material" uid="uid://3ub3li5nvjsw" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Map/Materials/not_floor_structure_material.tres" id="4_ivwfa"]
 [ext_resource type="PackedScene" uid="uid://djqwgcp3ehij1" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Map/MovementModifiers/slipperyZone/slippery_zone_scene.tscn" id="5_lao78"]
 [ext_resource type="PackedScene" uid="uid://ctf1yf3optph8" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Map/MovementModifiers/gravityZone/gravity_zone_scene.tscn" id="5_y6tot"]
 [ext_resource type="PackedScene" uid="uid://d4gavwq81shmv" path="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Map/MovementModifiers/conveyorZone/conveyor_zone_scene.tscn" id="7_q4rg5"]

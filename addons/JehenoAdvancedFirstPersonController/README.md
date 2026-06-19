@@ -50,6 +50,11 @@ The controller uses a finite state machine architecture where each state has its
 - Debug properties HUD
 - Input action checker
 
+## Showcase videos
+
+- The video showcasing the latest update: https://www.youtube.com/watch?v=MHr0td5G64M
+- The video showcasing the previous major update: https://www.youtube.com/watch?v=4PkR2Z1oxG8
+
 
 # Installation / Quickstart
 
@@ -77,6 +82,12 @@ By default, the key actions are defined as "play_char_{action_name}_action". Do 
 | `play_char_fly` | Toggle fly mode | F |
 | `play_char_zoom` | Camera zoom | Z |
 | `play_char_mouse_mode` | Toggle mouse capture | Esc |
+
+## Step 3(optional): Set up collisions
+
+Collisions masks and layers are already set up in the scenes, but for more clarity you can name them in the "3D Physics" section of your Godot projet settings window, as following :
+- 1 : world
+- 2 : player_character
 
 
 # State machine overview
@@ -134,10 +145,9 @@ The test map includes four interactive zone types that can be reused in your own
 | **Gravity Zone** | Modifies jump and fall gravity | `gravity_multiplier` |
 
 
-# Showcase videos
+# Visual layers
 
-- Changes from the latest update: https://www.youtube.com/watch?v=MHr0td5G64M
-- Previous major update showcase: https://www.youtube.com/watch?v=4PkR2Z1oxG8
+The camera can only see visual layer 1, and the player character model is under visual layer 2, to avoid clipping issues, especially when crouching
 
 
 # Issues and contributions

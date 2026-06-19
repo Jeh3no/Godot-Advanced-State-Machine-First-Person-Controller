@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2nkx156wo6gq"
-path="res://.godot/imported/icon.png-d757cbb0799c7422a07d1fe75b500cff.ctex"
+uid="uid://dchvps2nkcj0r"
+path="res://.godot/imported/logo.png-bb25306999c3655f0af81bb62c979066.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Arts/icon.png"
-dest_files=["res://.godot/imported/icon.png-d757cbb0799c7422a07d1fe75b500cff.ctex"]
+source_file="res://Godot-Advanced-State-Machine-First-Person-Controller/addons/JehenoAdvancedFirstPersonController/Arts/StoreImages/logo.png"
+dest_files=["res://.godot/imported/logo.png-bb25306999c3655f0af81bb62c979066.ctex"]
 
 [params]
 

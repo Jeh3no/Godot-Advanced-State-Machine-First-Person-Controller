@@ -196,9 +196,9 @@ func build_default_keybinding() -> void:
 		move_left_action : [Key.KEY_A, Key.KEY_LEFT],
 		move_right_action : [Key.KEY_D, Key.KEY_RIGHT],
 		run_action : [Key.KEY_SHIFT],
-		crouch_action : [Key.KEY_X],
+		crouch_action : [Key.KEY_C],
 		jump_action : [Key.KEY_SPACE],
-		slide_action : [Key.KEY_X],
+		slide_action : [Key.KEY_C],
 		dash_action : [Key.KEY_CTRL],
 		fly_action : [Key.KEY_F]
 	}
@@ -247,7 +247,7 @@ func _physics_process(_delta: float) -> void:
 func jump_timer(delta : float) -> void:
 	if jump_cooldown > 0.0:
 		jump_cooldown -= delta
-
+		
 func wallrun_timer(delta : float) -> void:
 	if !can_wallrun:
 		if time_bef_can_wallrun_again > 0.0: time_bef_can_wallrun_again -= delta
