@@ -14,7 +14,7 @@ The controller uses a finite state machine architecture where each state has its
 
 # Compatibility
 
-- **Godot 4.4 and 4.5**: Fully supported.
+- **Godot 4.4 - 4.7**: Fully supported.
 - **Godot 4.0 - 4.3**: Should work, but you will need to delete the `.uid` files.
 
 
