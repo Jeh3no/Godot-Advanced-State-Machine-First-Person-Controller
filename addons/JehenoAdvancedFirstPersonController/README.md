@@ -163,3 +163,8 @@ The camera can only see visual layer 1, and the player character model is under 
 - psychowolf960 (GitHub) - Typo fixes and the following movement modifier zones: vertical jump pad, conveyor area, slippery area, gravity area
 - 1000nettles (Github) - Readme file overhaul
 - henkehedstrom (Github) - Default keybindings addition
+
+
+# Donations
+
+If you like my assets, and want to support my work : https://ko-fi.com/jeheno
