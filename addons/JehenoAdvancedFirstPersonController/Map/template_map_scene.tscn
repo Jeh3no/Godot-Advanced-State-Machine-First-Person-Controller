@@ -62,7 +62,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.7646, 1.50542, -19.959)
 [node name="Map" type="Node3D" parent="." unique_id=270084263]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Map" unique_id=1680397417]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.29639, 0, -25.898514)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.28758, 0.023593903, -25.889654)
 use_collision = true
 collision_mask = 2
 size = Vector3(186, 1, 117.79703)

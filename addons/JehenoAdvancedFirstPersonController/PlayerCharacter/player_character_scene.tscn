@@ -204,6 +204,8 @@ grow_vertical = 2
 texture = ExtResource("16_gfbru")
 
 [node name="PlayerCharacterProperties" type="MarginContainer" parent="HUD" unique_id=1255810644]
+custom_minimum_size = Vector2(350, 0)
+custom_maximum_size = Vector2(350, -1)
 offset_right = 295.0
 offset_bottom = 376.0
 theme_override_constants/margin_left = 10
@@ -537,6 +539,8 @@ label_settings = ExtResource("14_gfbru")
 vertical_alignment = 1
 
 [node name="FPSProperties" type="MarginContainer" parent="HUD" unique_id=712875157]
+custom_minimum_size = Vector2(200, 0)
+custom_maximum_size = Vector2(200, -1)
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
